@@ -74,8 +74,8 @@ namespace lab02
                 this.DrawVertex(v);
             }
 
-            for (int i = 0; i < temp.Count - 1; i++)
-                this.Printer.PrintLine(temp[i].Center, temp[i + 1].Center, Color.Black);
+            for (int i = 0; i < temp.Count; i++)
+                this.Printer.PrintLine(temp[i % (temp.Count)].Center, temp[(i + 1) % temp.Count].Center, Color.Black);
         }
 
         public void MoveToPreview(Drawable d)
