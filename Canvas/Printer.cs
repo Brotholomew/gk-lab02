@@ -48,6 +48,8 @@ namespace lab02
             this.Main = new DirectBitmap(this.Width, this.Height);
         }
 
+        public void ErasePreview() => this.Preview = new DirectBitmap(this.Width, this.Height);
+
         public void Refresh()
         {
             this.CanvasWrapper.Invalidate();

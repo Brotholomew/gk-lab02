@@ -30,5 +30,20 @@ namespace lab02
         {
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
         }
+
+        private void MouseDownCanvas(object sender, MouseEventArgs e)
+        {
+            Designer.Instance.MouseDown(e.Location);
+        }
+
+        private void MouseUpCanvas(object sender, MouseEventArgs e)
+        {
+            Designer.Instance.MouseUp();
+        }
+
+        private void MouseMoveCanvas(object sender, MouseEventArgs e)
+        {
+            Designer.Instance.FollowMouse(e.Location, this);
+        }
     }
 }

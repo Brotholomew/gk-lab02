@@ -43,5 +43,54 @@ namespace lab02
             this.Register();
             Designer.Instance.MainContents.Add(this);
         }
+
+        public override void PreMove() 
+        {
+            this.MoveToPreview();
+
+            HashSet<Vertex> Vertices = new HashSet<Vertex>();
+
+            foreach (var t in this.Triangles)
+            {
+                Vertices.UnionWith(t.Vertices);
+                t.Print(Designer.Instance.PrintToPreview);
+            }
+
+            foreach (var v in Vertices)
+                v.Deregister();
+
+            Designer.Instance.Printer.Blank();
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
+        }
+
+        public override void PostMove() 
+        {
+            this.MoveToMain();
+
+            HashSet<Vertex> Vertices = new HashSet<Vertex>();
+
+            foreach (var t in this.Triangles)
+            {
+                Vertices.UnionWith(t.Vertices);
+                t.Print(Designer.Instance.PrintToMain);
+            }
+
+            foreach (var v in Vertices)
+                v.Register();
+        
+            Designer.Instance.Printer.Refresh();
+        }
+
+        public override void Move(Point p) 
+        {
+            this.Center = p;
+            Designer.Instance.Printer.ErasePreview();
+
+            foreach (var t in this.Triangles)
+                t.Print(Designer.Instance.PrintToPreview);
+
+            Designer.Instance.Printer.Refresh();
+        }
     }
 }
