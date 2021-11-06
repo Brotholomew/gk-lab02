@@ -48,13 +48,16 @@ namespace lab02
             this.Main = new DirectBitmap(this.Width, this.Height);
         }
 
+        public void ErasePreview() => this.Preview = new DirectBitmap(this.Width, this.Height);
+
         public void Refresh()
         {
             this.CanvasWrapper.Invalidate();
             this.CanvasWrapper.Update();
         }
 
-        public void PutPixel(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), p.X - Printer.VertexRadius, p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
+        public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel(p.X, p.Y, c);
+        public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), p.X - Printer.VertexRadius, p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
         public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), p1, p2));
 
         private void ModifyGraphics(Action<Graphics> how)

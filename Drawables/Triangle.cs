@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace lab02
 {
@@ -36,5 +37,10 @@ namespace lab02
 
             Designer.Instance.MainContents.Add(this);
         }
+
+        // methods not implemented for Triangles
+        public override void PreMove() { }
+        public override void PostMove() { }
+        public override void Move(Point p) { }
     }
 }

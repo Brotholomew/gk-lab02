@@ -30,6 +30,9 @@ namespace lab02
             int index = x + (y * Width);
             int col = colour.ToArgb();
 
+            if (index < 0 || index >= this.Width * this.Height)
+                return;
+
             Bits[index] = col;
         }
 

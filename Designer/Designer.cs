@@ -62,20 +62,22 @@ namespace lab02
         public HashSet<Drawable> MainContents                 { get; private set; }
         public Dictionary<Point, List<Drawable>> DrawablesMap { get; private set; }
 
-        public void DrawVertex(Vertex v) => this.Printer.PutPixel(v.Center, Color.Black);
+        public void DrawVertex(Vertex v) => this.Printer.PutVertex(v.Center, Color.Black);
 
         public void DrawTriangle(Triangle t)
         {
             List<Vertex> temp = new List<Vertex>();
             
+            this.FillPoly(t);
+
             foreach (var v in t.Vertices)
             {
                 temp.Add(v);
                 this.DrawVertex(v);
             }
 
-            for (int i = 0; i < temp.Count - 1; i++)
-                this.Printer.PrintLine(temp[i].Center, temp[i + 1].Center, Color.Black);
+            for (int i = 0; i < temp.Count; i++)
+                this.Printer.PrintLine(temp[i % (temp.Count)].Center, temp[(i + 1) % temp.Count].Center, Color.Black);
         }
 
         public void MoveToPreview(Drawable d)
@@ -103,7 +105,7 @@ namespace lab02
             if (!this.DrawablesMap.ContainsKey(v.Center))
                 this.DrawablesMap[v.Center] = new List<Drawable> { v };
             else
-                this.DrawablesMap[v.Center].Add(v);
+                if (!this.DrawablesMap[v.Center].Contains(v)) this.DrawablesMap[v.Center].Add(v);
         }
 
         public void Deregister(Vertex v)

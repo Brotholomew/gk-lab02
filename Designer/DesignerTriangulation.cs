@@ -19,7 +19,8 @@ namespace lab02
         public void Triangulate(HashSet<Vertex> vertices)
         {
             Delaunator d = new Delaunator(vertices.ConvertAll((Vertex v) => (IPoint)new DelaunatorSharp.Point(v.Center.X, v.Center.Y)).ToArray());
-            
+            Dictionary<IPoint, Vertex> tempMap = new Dictionary<IPoint, Vertex>();
+
             d.ForEachTriangle((ITriangle t) =>
             {
                 Triangle nt = new Triangle();
@@ -27,7 +28,16 @@ namespace lab02
 
                 foreach (var p in t.Points)
                 {
-                    Vertex v = new Vertex(new System.Drawing.Point((int)p.X, (int)p.Y));
+                    Vertex v = null;
+
+                    if (tempMap.ContainsKey(p))
+                        v = tempMap[p];
+                    else
+                    {
+                        v = new Vertex(new System.Drawing.Point((int)p.X, (int)p.Y));
+                        tempMap.Add(p, v);
+                    }
+
                     v.AdjacentDrawables.Add(nt);
                     temp.Add(v);
                 }
