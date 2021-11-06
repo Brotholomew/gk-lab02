@@ -62,12 +62,14 @@ namespace lab02
         public HashSet<Drawable> MainContents                 { get; private set; }
         public Dictionary<Point, List<Drawable>> DrawablesMap { get; private set; }
 
-        public void DrawVertex(Vertex v) => this.Printer.PutPixel(v.Center, Color.Black);
+        public void DrawVertex(Vertex v) => this.Printer.PutVertex(v.Center, Color.Black);
 
         public void DrawTriangle(Triangle t)
         {
             List<Vertex> temp = new List<Vertex>();
             
+            this.FillPoly(t);
+
             foreach (var v in t.Vertices)
             {
                 temp.Add(v);

@@ -17,6 +17,7 @@ namespace lab02
             InitializeComponent();
 
             Designer.Init(Canvas);
+            ColorChanged(null, null);
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
         }
 
@@ -44,6 +45,17 @@ namespace lab02
         private void MouseMoveCanvas(object sender, MouseEventArgs e)
         {
             Designer.Instance.FollowMouse(e.Location, this);
+        }
+
+        private void ColorChanged(object sender, EventArgs e)
+        {
+            if (RadioButtonColorGreen.Checked)
+                Designer.Instance.ChosenColor = Color.Green;
+            else if (RadioButtonColorRed.Checked)
+                Designer.Instance.ChosenColor = Color.Red;
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
     }
 }

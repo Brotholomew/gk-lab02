@@ -32,8 +32,12 @@ namespace lab02
             this.Canvas = new System.Windows.Forms.PictureBox();
             this.TriangulationDegreeTrackBar = new System.Windows.Forms.TrackBar();
             this.TriangulationDegreeLabel = new System.Windows.Forms.Label();
+            this.RadioButtonColorRed = new System.Windows.Forms.RadioButton();
+            this.ColorGroupBox = new System.Windows.Forms.GroupBox();
+            this.RadioButtonColorGreen = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TriangulationDegreeTrackBar)).BeginInit();
+            this.ColorGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // Canvas
@@ -69,11 +73,47 @@ namespace lab02
             this.TriangulationDegreeLabel.TabIndex = 2;
             this.TriangulationDegreeLabel.Text = "Triangulation Degree";
             // 
+            // RadioButtonColorRed
+            // 
+            this.RadioButtonColorRed.AutoSize = true;
+            this.RadioButtonColorRed.Checked = true;
+            this.RadioButtonColorRed.Location = new System.Drawing.Point(6, 22);
+            this.RadioButtonColorRed.Name = "RadioButtonColorRed";
+            this.RadioButtonColorRed.Size = new System.Drawing.Size(45, 19);
+            this.RadioButtonColorRed.TabIndex = 3;
+            this.RadioButtonColorRed.TabStop = true;
+            this.RadioButtonColorRed.Text = "Red";
+            this.RadioButtonColorRed.UseVisualStyleBackColor = true;
+            this.RadioButtonColorRed.CheckedChanged += new System.EventHandler(this.ColorChanged);
+            // 
+            // ColorGroupBox
+            // 
+            this.ColorGroupBox.Controls.Add(this.RadioButtonColorGreen);
+            this.ColorGroupBox.Controls.Add(this.RadioButtonColorRed);
+            this.ColorGroupBox.Location = new System.Drawing.Point(621, 148);
+            this.ColorGroupBox.Name = "ColorGroupBox";
+            this.ColorGroupBox.Size = new System.Drawing.Size(279, 80);
+            this.ColorGroupBox.TabIndex = 4;
+            this.ColorGroupBox.TabStop = false;
+            this.ColorGroupBox.Text = "Select color";
+            // 
+            // RadioButtonColorGreen
+            // 
+            this.RadioButtonColorGreen.AutoSize = true;
+            this.RadioButtonColorGreen.Location = new System.Drawing.Point(6, 48);
+            this.RadioButtonColorGreen.Name = "RadioButtonColorGreen";
+            this.RadioButtonColorGreen.Size = new System.Drawing.Size(56, 19);
+            this.RadioButtonColorGreen.TabIndex = 4;
+            this.RadioButtonColorGreen.Text = "Green";
+            this.RadioButtonColorGreen.UseVisualStyleBackColor = true;
+            this.RadioButtonColorGreen.CheckedChanged += new System.EventHandler(this.ColorChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 600);
+            this.Controls.Add(this.ColorGroupBox);
             this.Controls.Add(this.TriangulationDegreeLabel);
             this.Controls.Add(this.TriangulationDegreeTrackBar);
             this.Controls.Add(this.Canvas);
@@ -81,6 +121,8 @@ namespace lab02
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TriangulationDegreeTrackBar)).EndInit();
+            this.ColorGroupBox.ResumeLayout(false);
+            this.ColorGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -91,6 +133,9 @@ namespace lab02
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.TrackBar TriangulationDegreeTrackBar;
         private System.Windows.Forms.Label TriangulationDegreeLabel;
+        private System.Windows.Forms.RadioButton RadioButtonColorRed;
+        private System.Windows.Forms.GroupBox ColorGroupBox;
+        private System.Windows.Forms.RadioButton RadioButtonColorGreen;
     }
 }
 
