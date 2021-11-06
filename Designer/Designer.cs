@@ -103,7 +103,7 @@ namespace lab02
             if (!this.DrawablesMap.ContainsKey(v.Center))
                 this.DrawablesMap[v.Center] = new List<Drawable> { v };
             else
-                this.DrawablesMap[v.Center].Add(v);
+                if (!this.DrawablesMap[v.Center].Contains(v)) this.DrawablesMap[v.Center].Add(v);
         }
 
         public void Deregister(Vertex v)

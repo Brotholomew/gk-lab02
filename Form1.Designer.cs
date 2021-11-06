@@ -44,6 +44,9 @@ namespace lab02
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintCanvas);
+            this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseDownCanvas);
+            this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseMoveCanvas);
+            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MouseUpCanvas);
             // 
             // TriangulationDegreeTrackBar
             // 

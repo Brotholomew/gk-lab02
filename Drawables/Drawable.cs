@@ -22,5 +22,9 @@ namespace lab02
         public abstract void Register();
         public abstract void Deregister();
         public abstract void AddToMain();
+
+        public abstract void PreMove();
+        public abstract void PostMove();
+        public abstract void Move(Point p);
     }
 }
