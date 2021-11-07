@@ -12,6 +12,11 @@ namespace lab02
             this.Center = p;
         }
 
+        public Vertex(IPoint p) : base(new HashSet<Drawable>())
+        {
+            this.Center = (Point)p;
+        }
+
         public Point Center { get; private set; }
         public HashSet<Triangle> Triangles { get => this.AdjacentDrawables.ConvertAll((Drawable d) => (Triangle)d); } 
 

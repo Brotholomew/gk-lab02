@@ -11,7 +11,22 @@ namespace lab02
         public Triangle(HashSet<Drawable> vertices) : base(vertices) { }
 
         public HashSet<Vertex> Vertices { get => this.AdjacentDrawables.ConvertAll((Drawable d) => (Vertex)d); }
-          
+
+        private PlaneEquation _Plane;
+        public PlaneEquation Plane 
+        { 
+            get
+            {
+                var temp = this.AdjacentDrawables.ToList().ConvertAll((Drawable d) => (Vertex)d);
+
+                if (temp.Count != 3)
+                    this._Plane = null;
+                else
+                    this._Plane = new PlaneEquation(temp[0].Center, temp[1].Center, temp[2].Center);
+
+                return this._Plane;
+            }
+        }
 
         public void AddTriangle(Triangle t) => this.AdjacentDrawables.Add(t);
 

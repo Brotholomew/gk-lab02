@@ -32,7 +32,7 @@ namespace lab02
             this.Printer.Blank();
             this.PreviewContents = new HashSet<Drawable>();
             this.MainContents = new HashSet<Drawable>();
-            this.DrawablesMap = new Dictionary<Point, List<Drawable>>();
+            this.DrawablesMap = new Dictionary<System.Drawing.Point, List<Drawable>>();
         }
 
         private void Move(HashSet<Drawable> set1, HashSet<Drawable> set2, Drawable d)
@@ -60,7 +60,7 @@ namespace lab02
         public Printer Printer                                { get; private set; }
         public HashSet<Drawable> PreviewContents              { get; private set; }
         public HashSet<Drawable> MainContents                 { get; private set; }
-        public Dictionary<Point, List<Drawable>> DrawablesMap { get; private set; }
+        public Dictionary<System.Drawing.Point, List<Drawable>> DrawablesMap { get; private set; }
 
         public void DrawVertex(Vertex v) => this.Printer.PutVertex(v.Center, Color.Black);
 
@@ -102,16 +102,16 @@ namespace lab02
         
         public void Register(Vertex v)
         {
-            if (!this.DrawablesMap.ContainsKey(v.Center))
-                this.DrawablesMap[v.Center] = new List<Drawable> { v };
+            if (!this.DrawablesMap.ContainsKey(v.Center.GetPoint()))
+                this.DrawablesMap[v.Center.GetPoint()] = new List<Drawable> { v };
             else
-                if (!this.DrawablesMap[v.Center].Contains(v)) this.DrawablesMap[v.Center].Add(v);
+                if (!this.DrawablesMap[v.Center.GetPoint()].Contains(v)) this.DrawablesMap[v.Center.GetPoint()].Add(v);
         }
 
         public void Deregister(Vertex v)
         {
-            if (this.DrawablesMap.ContainsKey(v.Center))
-                this.DrawablesMap[v.Center].Remove(v);
+            if (this.DrawablesMap.ContainsKey(v.Center.GetPoint()))
+                this.DrawablesMap[v.Center.GetPoint()].Remove(v);
         }
 
 

@@ -24,21 +24,24 @@ namespace lab02
 
                 x = Math.Cos(theta) * radius;
                 z = Math.Sin(theta) * radius;
-                if (z < 0) continue;
 
-                x += 1;
-                x /= 2;
+                if (z < 0) continue;                                                // only the upper hemisphere
 
-                y += 1;
-                y /= 2;
+                this.Translate(ref x, this.Printer.Width);
+                this.Translate(ref y, this.Printer.Height);
+                this.Translate(ref z, this.Printer.Width);
 
-                x *= (this.Printer.Width - 1);
-                y *= (this.Printer.Height - 1);
-
-                points.Add(new Point((int)x, (int)y));
+                points.Add(new Point((int)x, (int)y, (int)z));
             }
 
             return points;
+        }
+
+        private void Translate (ref double a, int scale)
+        {
+            a += 1;
+            a /= 2;
+            a *= scale;
         }
     }
 }

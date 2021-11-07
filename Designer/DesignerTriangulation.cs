@@ -11,14 +11,14 @@ namespace lab02
         {
             this.Blank();
 
-            var temp = Designer.Instance.FibonacciSphere(points).ConvertAll((System.Drawing.Point p) => new Vertex(p));
+            var temp = Designer.Instance.FibonacciSphere(points).ConvertAll((Point p) => new Vertex(p));
             Designer.Instance.Triangulate(temp);
             Designer.Instance.Printer.Refresh();
         }
 
         public void Triangulate(HashSet<Vertex> vertices)
         {
-            Delaunator d = new Delaunator(vertices.ConvertAll((Vertex v) => (IPoint)new DelaunatorSharp.Point(v.Center.X, v.Center.Y)).ToArray());
+            Delaunator d = new Delaunator(vertices.ConvertAll((Vertex v) => (IPoint)v.Center).ToArray());
             Dictionary<IPoint, Vertex> tempMap = new Dictionary<IPoint, Vertex>();
 
             d.ForEachTriangle((ITriangle t) =>
@@ -34,7 +34,7 @@ namespace lab02
                         v = tempMap[p];
                     else
                     {
-                        v = new Vertex(new System.Drawing.Point((int)p.X, (int)p.Y));
+                        v = new Vertex(p);
                         tempMap.Add(p, v);
                     }
 

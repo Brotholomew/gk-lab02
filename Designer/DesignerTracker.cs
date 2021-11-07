@@ -67,8 +67,8 @@ namespace lab02
                         if (i == -k || i == k || j == -k || j == k)
                         {
                             Point np = new Point(p.X + i, p.Y + j);
-                            if (this.DrawablesMap.ContainsKey(np) && this.DrawablesMap[np].Count > 0)
-                                return this.DrawablesMap[np][0];
+                            if (this.DrawablesMap.ContainsKey(np.GetPoint()) && this.DrawablesMap[np.GetPoint()].Count > 0)
+                                return this.DrawablesMap[np.GetPoint()][0];
                         }
                         else
                             continue;

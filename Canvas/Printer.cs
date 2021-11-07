@@ -56,9 +56,9 @@ namespace lab02
             this.CanvasWrapper.Update();
         }
 
-        public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel(p.X, p.Y, c);
-        public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), p.X - Printer.VertexRadius, p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
-        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), p1, p2));
+        public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel((int)p.X, (int)p.Y, c);
+        public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), (int)p.X - Printer.VertexRadius, (int)p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
+        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), p1.GetPoint(), p2.GetPoint()));
 
         private void ModifyGraphics(Action<Graphics> how)
         {
@@ -71,7 +71,7 @@ namespace lab02
         public void PrintDebug(String debugMsg, Point p)
         {
             if (Printer.DEBUG == 1)
-                this.ModifyGraphics((Graphics g) => g.DrawString(debugMsg, SystemFonts.DefaultFont, Brushes.Black, p));
+                this.ModifyGraphics((Graphics g) => g.DrawString(debugMsg, SystemFonts.DefaultFont, Brushes.Black, p.GetPoint()));
         }
     }
 }

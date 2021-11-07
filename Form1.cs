@@ -41,7 +41,7 @@ namespace lab02
 
         private void MouseDownCanvas(object sender, MouseEventArgs e)
         {
-            Designer.Instance.MouseDown(e.Location);
+            Designer.Instance.MouseDown(new Point(e.Location.X, e.Location.Y));
         }
 
         private void MouseUpCanvas(object sender, MouseEventArgs e)
@@ -51,7 +51,7 @@ namespace lab02
 
         private void MouseMoveCanvas(object sender, MouseEventArgs e)
         {
-            Designer.Instance.FollowMouse(e.Location, this);
+            Designer.Instance.FollowMouse(new Point(e.Location.X, e.Location.Y), this);
         }
 
         private void ColorChanged(object sender, EventArgs e)
