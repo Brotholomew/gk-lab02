@@ -24,6 +24,7 @@ namespace lab02
             ValueChangedKdScrollBar(null, null);
             ValueChangedKsScrollBar(null, null);
             ValueChangedMScrollBar(null, null);
+            ValueChangedAnimationTrackBar(null, null);
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
         }
 
@@ -71,6 +72,9 @@ namespace lab02
 
             Designer.Instance.kd = val;
             KdTextBox.Text = val.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedKsScrollBar(object sender, EventArgs e)
@@ -79,17 +83,26 @@ namespace lab02
             
             Designer.Instance.ks = val;
             KsTextBox.Text = val.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedMScrollBar(object sender, EventArgs e)
         {
             Designer.Instance.m = MTrackBar.Value;
             MTextBox.Text = MTrackBar.Value.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedAnimationTrackBar(object sender, EventArgs e)
         {
             Designer.Instance.AnimationDegree = AnimationTrackBar.Value;
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void LightColorChanged(object sender, EventArgs e)

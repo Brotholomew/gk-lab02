@@ -162,6 +162,7 @@ namespace lab02
             this.KdTrackBar.Name = "KdTrackBar";
             this.KdTrackBar.Size = new System.Drawing.Size(215, 45);
             this.KdTrackBar.TabIndex = 6;
+            this.KdTrackBar.Value = 200;
             this.KdTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedKdScrollBar);
             // 
             // KsTextBox
@@ -188,6 +189,7 @@ namespace lab02
             this.KsTrackBar.Name = "KsTrackBar";
             this.KsTrackBar.Size = new System.Drawing.Size(215, 45);
             this.KsTrackBar.TabIndex = 9;
+            this.KsTrackBar.Value = 200;
             this.KsTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedKsScrollBar);
             // 
             // MTextBox
@@ -219,10 +221,12 @@ namespace lab02
             // AnimationTrackBar
             // 
             this.AnimationTrackBar.Location = new System.Drawing.Point(606, 270);
-            this.AnimationTrackBar.Maximum = 100;
+            this.AnimationTrackBar.Maximum = 500;
+            this.AnimationTrackBar.Minimum = 100;
             this.AnimationTrackBar.Name = "AnimationTrackBar";
             this.AnimationTrackBar.Size = new System.Drawing.Size(215, 45);
             this.AnimationTrackBar.TabIndex = 15;
+            this.AnimationTrackBar.Value = 100;
             this.AnimationTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedAnimationTrackBar);
             // 
             // AnimationButton
