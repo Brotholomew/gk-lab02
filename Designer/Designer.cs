@@ -12,19 +12,21 @@ namespace lab02
         
         public static Designer Instance { get; private set; }
         
-        public static void Init(PictureBox canvasWrapper)
+        public static void Init(PictureBox canvasWrapper, double animationTick, TrackBar at)
         {
-            Designer.Instance = new Designer(canvasWrapper);
+            Designer.Instance = new Designer(canvasWrapper, animationTick, at);
         }
 
         #endregion
 
         #region Private Fields and Methods
 
-        private Designer(PictureBox canvasWrapper)
+        private Designer(PictureBox canvasWrapper, double animationTick, TrackBar at)
         {
             this.Printer = new Printer(canvasWrapper.Width, canvasWrapper.Height, canvasWrapper);
             this.Blank();
+            this.AnimationTick = animationTick;
+            this.AnimationTrackBar = at;
         }
 
         private void Blank()
@@ -119,6 +121,8 @@ namespace lab02
 
         public void Reprint()
         {
+            this.Printer.Blank();
+
             foreach (var d in this.MainContents)
                 d.Print(this.PrintToMain);
 
