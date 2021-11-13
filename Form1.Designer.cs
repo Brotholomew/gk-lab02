@@ -52,6 +52,7 @@ namespace lab02
             this.LightColorGroupBox = new System.Windows.Forms.GroupBox();
             this.RedLighgtCheckBox = new System.Windows.Forms.RadioButton();
             this.WhiteLightCheckBox = new System.Windows.Forms.RadioButton();
+            this.InterpolationCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TriangulationDegreeTrackBar)).BeginInit();
             this.ColorGroupBox.SuspendLayout();
@@ -78,7 +79,7 @@ namespace lab02
             // 
             this.TriangulationDegreeTrackBar.Location = new System.Drawing.Point(606, 40);
             this.TriangulationDegreeTrackBar.Maximum = 2500;
-            this.TriangulationDegreeTrackBar.Minimum = 500;
+            this.TriangulationDegreeTrackBar.Minimum = 10;
             this.TriangulationDegreeTrackBar.Name = "TriangulationDegreeTrackBar";
             this.TriangulationDegreeTrackBar.Size = new System.Drawing.Size(215, 45);
             this.TriangulationDegreeTrackBar.TabIndex = 1;
@@ -221,12 +222,10 @@ namespace lab02
             // AnimationTrackBar
             // 
             this.AnimationTrackBar.Location = new System.Drawing.Point(606, 270);
-            this.AnimationTrackBar.Maximum = 500;
-            this.AnimationTrackBar.Minimum = 100;
+            this.AnimationTrackBar.Maximum = 1600;
             this.AnimationTrackBar.Name = "AnimationTrackBar";
             this.AnimationTrackBar.Size = new System.Drawing.Size(215, 45);
             this.AnimationTrackBar.TabIndex = 15;
-            this.AnimationTrackBar.Value = 100;
             this.AnimationTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedAnimationTrackBar);
             // 
             // AnimationButton
@@ -284,11 +283,23 @@ namespace lab02
             this.WhiteLightCheckBox.UseVisualStyleBackColor = true;
             this.WhiteLightCheckBox.CheckedChanged += new System.EventHandler(this.LightColorChanged);
             // 
+            // InterpolationCheckBox
+            // 
+            this.InterpolationCheckBox.AutoSize = true;
+            this.InterpolationCheckBox.Location = new System.Drawing.Point(621, 505);
+            this.InterpolationCheckBox.Name = "InterpolationCheckBox";
+            this.InterpolationCheckBox.Size = new System.Drawing.Size(126, 19);
+            this.InterpolationCheckBox.TabIndex = 18;
+            this.InterpolationCheckBox.Text = "Color Interpolation";
+            this.InterpolationCheckBox.UseVisualStyleBackColor = true;
+            this.InterpolationCheckBox.CheckedChanged += new System.EventHandler(this.CheckedChangedColorInterpolation);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 600);
+            this.Controls.Add(this.InterpolationCheckBox);
             this.Controls.Add(this.LightColorGroupBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.AnimationButton);
@@ -348,6 +359,7 @@ namespace lab02
         private System.Windows.Forms.GroupBox LightColorGroupBox;
         private System.Windows.Forms.RadioButton RedLighgtCheckBox;
         private System.Windows.Forms.RadioButton WhiteLightCheckBox;
+        private System.Windows.Forms.CheckBox InterpolationCheckBox;
     }
 }
 

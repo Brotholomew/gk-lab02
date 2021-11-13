@@ -19,6 +19,7 @@ namespace lab02
 
         public Point Center { get; private set; }
         public HashSet<Triangle> Triangles { get => this.AdjacentDrawables.ConvertAll((Drawable d) => (Triangle)d); } 
+        public Color Color { get; set; }
 
         public void AddTriangle(Triangle t) => this.AdjacentDrawables.Add(t);
 
@@ -29,13 +30,14 @@ namespace lab02
             foreach (var t in this.Triangles)
             {
                 Vertices.UnionWith(t.Vertices);
-                how(t);
+                t.Move(how);
+                //how(t);
             }
 
             Vertices.UnionWith(new HashSet<Vertex> { this });
 
-            foreach (var v in Vertices)
-                how(v);
+            //foreach (var v in Vertices)
+            //    how(v);
         }
 
         public override void Print(Action<Action> how) => how(() => Designer.Instance.DrawVertex(this));
@@ -63,10 +65,6 @@ namespace lab02
 
             foreach (var v in Vertices)
                 v.Deregister();
-
-            Designer.Instance.Printer.Blank();
-            Designer.Instance.Reprint();
-            Designer.Instance.Printer.Refresh();
         }
 
         public override void PostMove() 
@@ -83,17 +81,19 @@ namespace lab02
 
             foreach (var v in Vertices)
                 v.Register();
-        
-            Designer.Instance.Printer.Refresh();
         }
 
         public override void Move(Point p) 
         {
+            p.Z = this.Center.Z;
             this.Center = p;
             Designer.Instance.Printer.ErasePreview();
 
             foreach (var t in this.Triangles)
+            {
                 t.Print(Designer.Instance.PrintToPreview);
+                t.Move(p);
+            }
 
             Designer.Instance.Printer.Refresh();
         }

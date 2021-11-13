@@ -12,19 +12,17 @@ namespace lab02
 
         public HashSet<Vertex> Vertices { get => this.AdjacentDrawables.ConvertAll((Drawable d) => (Vertex)d); }
 
-        private PlaneEquation _Plane;
-        public PlaneEquation Plane 
-        { 
-            get
+        private bool AreaCalculated = false;
+        private double _Area;
+        public double Area { get
             {
-                var temp = this.AdjacentDrawables.ToList().ConvertAll((Drawable d) => (Vertex)d);
+                if (!this.AreaCalculated)
+                {
+                    this.AreaCalculated = true;
+                    this._Area = Functors.CalculateTriangleArea(this);
+                }
 
-                if (temp.Count != 3)
-                    this._Plane = null;
-                else
-                    this._Plane = new PlaneEquation(temp[0].Center, temp[1].Center, temp[2].Center);
-
-                return this._Plane;
+                return this._Area;
             }
         }
 
@@ -34,8 +32,10 @@ namespace lab02
 
         public override void Move(Action<Drawable> how)
         {
-            // triangles will not be moved in this project
-            throw new NotImplementedException();
+            this.AreaCalculated = false;
+            this.PlaneCalculated = false;
+
+            how(this);
         }
 
         public override void Print(Action<Action> how)
@@ -53,9 +53,74 @@ namespace lab02
             Designer.Instance.MainContents.Add(this);
         }
 
+        public (Point A, Point B, Point C) GetPoints()
+        {
+            Point A = Point.Empty, B = Point.Empty, C = Point.Empty;
+
+            foreach (var v in this.Vertices)
+            {
+                if (A._Empty)
+                    A = v.Center;
+                else if (B._Empty)
+                    B = v.Center;
+                else if (C._Empty)
+                    C = v.Center;
+            }
+            
+            return (A, B, C);
+        }
+
+        public (Color cA, Color cB, Color cC) GetColors()
+        {
+            Color cA = Color.Empty, cB = Color.Empty, cC = Color.Empty;
+            foreach (var v in this.Vertices)
+            {
+                if (cA == Color.Empty)
+                    cA = v.Color;
+                else if (cB == Color.Empty)
+                    cB = v.Color;
+                else if (cC == Color.Empty)
+                    cC = v.Color;
+            }
+
+            return (cA, cB, cC);
+        }
+
+        #region Plane
+
+        private bool PlaneCalculated = false;
+
+        public double pA { get; private set; }
+        public double pB { get; private set; }
+        public double pC { get; private set; }
+        public double pD { get; private set; }
+
+        public void CalculatePlane()
+        {
+            if (this.PlaneCalculated)
+                return;
+
+            var (a, b, c) = this.GetPoints();
+
+            this.pA = (b.Y - a.Y) * (c.Z - a.Z) - (c.Y - a.Y) * (b.Z - a.Z);
+            this.pB = (b.Z - a.Z) * (c.X - a.X) - (c.Z - a.Z) * (b.X - a.X);
+            this.pC = (b.X - a.X) * (c.Y - a.Y) - (c.X - a.X) * (b.Y - a.Y);
+            this.pD = (-1) * (this.pA * a.X + this.pB * a.Y + this.pC * a.Z);
+            
+            this.PlaneCalculated = true;
+        }
+
+        public double GetZ(int x, int y) => (this.pA * x + this.pB * y + this.pD) / ((-1) * this.pC);
+
+        #endregion
+
         // methods not implemented for Triangles
         public override void PreMove() { }
         public override void PostMove() { }
-        public override void Move(Point p) { }
+        public override void Move(Point p) 
+        {
+            this.AreaCalculated = false;
+            this.PlaneCalculated = false;
+        }
     }
 }

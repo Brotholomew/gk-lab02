@@ -40,6 +40,10 @@ namespace lab02
                 this.Mode = Designer.TrackerModes.FollowMouse;
                 this.Tracked.PreMove();
             }
+
+            Designer.Instance.Printer.Blank();
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         public void MouseUp()
@@ -51,6 +55,10 @@ namespace lab02
             }
 
             this.Mode = Designer.TrackerModes.Off;
+
+            Designer.Instance.Printer.Blank();
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         public Drawable Track(Point p)
