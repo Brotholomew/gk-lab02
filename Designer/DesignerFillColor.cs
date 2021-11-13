@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace lab02
 {
@@ -10,11 +11,13 @@ namespace lab02
         public Color ChosenColor { get; set; }
         public Color LightColor { get; set; }
 
+        public ImageComboBoxLoader ICMBL { get; set; } 
         public bool ColorInterpolation { get; set; }
 
         public double ks { get; set; }
         public double kd { get; set; }
         public double m { get; set; }
+        public double k { get; set; }
 
         public void FillPoly(Drawable d)
         {
@@ -54,11 +57,17 @@ namespace lab02
             double _G = cA.G * alpha + cB.G * beta + cC.G * gamma;
             double _B = cA.B * alpha + cB.B * beta + cC.B * gamma;
 
+            _R = Math.Max(0, _R); _R = Math.Min(255, _R);
+            _G = Math.Max(0, _G); _G = Math.Min(255, _G);
+            _B = Math.Max(0, _B); _B = Math.Min(255, _B);
+
             return Color.FromArgb((int)_R, (int)_G, (int)_B);
         }
 
         private Color CalculateColor(int x, int y, int z, Triangle t)
         {
+            Color ChosenColor = this.ICMBL.GetColor(x, y, z);
+            this.LightColor = this.ICMBL.LightColor;
             double R = ChosenColor.R, G = ChosenColor.G, B = this.ChosenColor.B;
 
             #region Object Oriented Calculations
@@ -119,8 +128,8 @@ namespace lab02
 
             #region R
 
-            lambertCompositional = this.kd * this.ChosenColor.R * this.LightColor.R * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * this.ChosenColor.R * this.LightColor.R * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.R * this.LightColor.R * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.R * this.LightColor.R * V_R_cos;
 
             R = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -128,8 +137,8 @@ namespace lab02
 
             #region G
 
-            lambertCompositional = this.kd * this.ChosenColor.G * this.LightColor.G * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * this.ChosenColor.G * this.LightColor.G * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.G * this.LightColor.G * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.G * this.LightColor.G * V_R_cos;
 
             G = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -137,8 +146,8 @@ namespace lab02
 
             #region B
 
-            lambertCompositional = this.kd * this.ChosenColor.B * this.LightColor.B * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * this.ChosenColor.B * this.LightColor.B * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.B * this.LightColor.B * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.B * this.LightColor.B * V_R_cos;
 
             B = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -158,47 +167,48 @@ namespace lab02
         private Point TranslateAnimationDegree()
         {
             CircleEquation c = new CircleEquation(new Point(this.Printer.Width / 2, this.Printer.Height / 2), 200);
-            return new Point(this.AnimationDegree, c.GetY(this.AnimationDegree));
+            return new Point(this._AnimationDegree, c.GetY(this._AnimationDegree));
         }
 
         #region Light Source
-        public double AnimationDegree
-        {
-            get
-            {
-                return this._AnimationDegree;
-            }
-            set
-            {
-                this._AnimationDegree = value;
-                this.UpdateLightSourcePosition();
-            }
-        }
 
         private double DistanceFromLightSource = 1200;
         private double LightX;
         private double LightY;
         private double _AnimationDegree;
+        private double AnimationTick;
+        private double phi = 0;
+        private double r = 0;
+        private double radius = 200;
 
-        public void UpdateLightSourcePosition()
+        private TrackBar AnimationTrackBar;
+
+        public void UpdateLightSourcePosition(object sender, EventArgs e)
         {
-            double radius = 200;
-            double center = this.Printer.Width / 2;
+            this.phi += 0.1;
+            if (this.r > radius || this.r <= 0) this.AnimationTick *= -1;
 
-            double translatedDegree = 0;
-            if (this.AnimationDegree < 400)
-                translatedDegree = this.AnimationDegree + 100;
-            else if (this.AnimationDegree < 800)
-                translatedDegree = 100 + this.AnimationDegree - 2 * (this.AnimationDegree % 400);
-            else if (this.AnimationDegree < 1200)
-                translatedDegree = 100 + this.AnimationDegree % 400;
-            else if (this.AnimationDegree <= 1600)
-                translatedDegree = 100 + (this.AnimationDegree % 800) - 2 * (this.AnimationDegree % 400);
+            this.r += this.AnimationTick;
 
-            radius *= radius * (1600 - this.AnimationDegree) / 1600;
+            this.LightX = (int)(this.r * Math.Cos(this.phi) + 200);
+            this.LightY = (int)(this.r * Math.Sin(this.phi) + 400);
 
-            this.LightX = translatedDegree;
-            this.LightY = radius == 0 ? 0 : Math.Sqrt(radius * radius - (this.LightX - center) * (this.LightX - center)) + center;
+            this._AnimationDegree = Math.Min(this.AnimationTrackBar.Maximum, Math.Max(0, this.r / radius * this.AnimationTrackBar.Maximum));
+            this.AnimationTrackBar.Value = (int)this._AnimationDegree;
+        }
+
+        public void AnimationAdvance()
+        {
+            this._AnimationDegree = this.AnimationTrackBar.Value;
+            this.r = this._AnimationDegree * 200 / this.AnimationTrackBar.Maximum; 
+            
+            this.phi += 0.1;
+            if (this.r > radius || this.r <= 0) this.AnimationTick *= -1;
+
+            this.r += this.AnimationTick;
+
+            this.LightX = (int)(this.r * Math.Cos(this.phi) + 400);
+            this.LightY = (int)(this.r * Math.Sin(this.phi) + 200);
         }
 
         #endregion

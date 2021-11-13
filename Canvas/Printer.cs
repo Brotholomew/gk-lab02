@@ -44,6 +44,9 @@ namespace lab02
 
         public void Blank()
         {
+            if (this.Preview != null) this.Preview.Dispose();
+            if (this.Main != null) this.Main.Dispose();   
+            
             this.Preview = new DirectBitmap(this.Width, this.Height);
             this.Main = new DirectBitmap(this.Width, this.Height);
         }
@@ -57,8 +60,18 @@ namespace lab02
         }
 
         public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel((int)p.X, (int)p.Y, c);
-        public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), (int)p.X - Printer.VertexRadius, (int)p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
-        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), (int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y));
+        public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => 
+        {
+            SolidBrush b = new SolidBrush(c);
+            g.FillEllipse(b, (int)p.X - Printer.VertexRadius, (int)p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1);
+            b.Dispose();
+        });
+        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) =>
+        {
+            Pen p = new Pen(c);
+            g.DrawLine(p, (int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y);
+            p.Dispose();
+        });
 
         //public void PrintLine(Point p1, Point p2, Color c)
         //{
