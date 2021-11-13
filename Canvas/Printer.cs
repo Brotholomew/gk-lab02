@@ -58,7 +58,21 @@ namespace lab02
 
         public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel((int)p.X, (int)p.Y, c);
         public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => g.FillEllipse(new SolidBrush(c), (int)p.X - Printer.VertexRadius, (int)p.Y - Printer.VertexRadius, 2 * Printer.VertexRadius + 1, 2 * Printer.VertexRadius + 1));
-        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), p1.GetPoint(), p2.GetPoint()));
+        public void PrintLine(Point p1, Point p2, Color c) => ModifyGraphics((Graphics g) => g.DrawLine(new Pen(c), (int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y));
+
+        //public void PrintLine(Point p1, Point p2, Color c)
+        //{
+        //    Graphics g = Graphics.FromImage(this.CurrentBitmap.Bitmap);
+        //    g.DrawLine(new Pen(c), (int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y);
+        //    g.Flush();
+        //}
+
+        //public void PrintLine(int p1x, int p1y, int p2x, int p2y, Color c)
+        //{
+        //    Graphics g = Graphics.FromImage(this.CurrentBitmap.Bitmap);
+        //    g.DrawLine(new Pen(c), p1x, p1y, p2x, p2y);
+        //    g.Flush();
+        //}
 
         private void ModifyGraphics(Action<Graphics> how)
         {

@@ -15,7 +15,11 @@ namespace lab02
         public Form1()
         {
             InitializeComponent();
+            this.Init();
+        }
 
+        private void Init()
+        {
             Designer.Init(Canvas);
             ColorChanged(null, null);
             LightColorChanged(null, null);
@@ -25,6 +29,7 @@ namespace lab02
             ValueChangedKsScrollBar(null, null);
             ValueChangedMScrollBar(null, null);
             ValueChangedAnimationTrackBar(null, null);
+            CheckedChangedColorInterpolation(null, null);
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
         }
 
@@ -119,6 +124,11 @@ namespace lab02
         private void ClickAnimationButton(object sender, EventArgs e)
         {
 
+        }
+
+        private void CheckedChangedColorInterpolation(object sender, EventArgs e)
+        {
+            Designer.Instance.ColorInterpolation = this.InterpolationCheckBox.Checked;
         }
     }
 }

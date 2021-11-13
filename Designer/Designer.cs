@@ -77,7 +77,9 @@ namespace lab02
             }
 
             for (int i = 0; i < temp.Count; i++)
+            {
                 this.Printer.PrintLine(temp[i % (temp.Count)].Center, temp[(i + 1) % temp.Count].Center, Color.Black);
+            }
         }
 
         public void MoveToPreview(Drawable d)
@@ -117,14 +119,11 @@ namespace lab02
 
         public void Reprint()
         {
-            Printer.Blank();
-
-            foreach (var d in this.PreviewContents)
-                d.Print(this.PrintToPreview);
-
             foreach (var d in this.MainContents)
                 d.Print(this.PrintToMain);
 
+            foreach (var d in this.PreviewContents)
+                d.Print(this.PrintToPreview);
         }
 
         public void PrintToPreview(Action what)
