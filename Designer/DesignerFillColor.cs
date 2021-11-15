@@ -36,6 +36,7 @@ namespace lab02
                 return (this.InterpolateColor(x, y, z, t));
             else
                 return this.CalculateColor(x, y, z, t);
+
         }
 
         private Color InterpolateColor(int x, int y, int z, Triangle t)
@@ -47,8 +48,8 @@ namespace lab02
 
             double denominator = (B.Y - C.Y) * (A.X - C.X) + (C.X - B.X) * (A.Y - C.Y);
 
-            double alpha = ((B.Y - C.Y) * (x - C.X) + (C.X - B.X) * (y - C.Y)) / denominator;
-            double beta = ((C.Y - A.Y) * (x - C.X) + (A.X - C.X) * (y - C.Y)) / denominator;
+            double alpha = (double) ((B.Y - C.Y) * (x - C.X) + (C.X - B.X) * (y - C.Y)) / (double) denominator;
+            double beta = (double) ((C.Y - A.Y) * (x - C.X) + (A.X - C.X) * (y - C.Y)) / (double) denominator;
             double gamma = 1 - alpha - beta;
 
             #endregion
@@ -61,13 +62,14 @@ namespace lab02
             _G = Math.Max(0, _G); _G = Math.Min(255, _G);
             _B = Math.Max(0, _B); _B = Math.Min(255, _B);
 
-            return Color.FromArgb((int)_R, (int)_G, (int)_B);
+            return Color.FromArgb((int)Math.Ceiling(_R), (int)Math.Ceiling(_G), (int)Math.Ceiling(_B));
         }
 
         private Color CalculateColor(int x, int y, int z, Triangle t)
         {
             Color ChosenColor = this.ICMBL.GetColor(x, y, z);
-            this.LightColor = this.ICMBL.LightColor;
+            Color LightColor = this.ICMBL.LightColor;
+
             double R = ChosenColor.R, G = ChosenColor.G, B = this.ChosenColor.B;
 
             #region Object Oriented Calculations
@@ -97,7 +99,7 @@ namespace lab02
             double N_X = t.pA, N_Y = t.pB, N_Z = t.pC;
 
             // vector L
-            double L_X = x - this.LightX, L_Y = y - this.LightY, L_Z = z - this.DistanceFromLightSource;
+            double L_X = this.LightX - x, L_Y = this.LightY - y, L_Z = this.DistanceFromLightSource - z;
 
             // normalize L and N vectors
             double L_abs = Math.Sqrt(L_X * L_X + L_Y * L_Y + L_Z * L_Z); if (L_abs == 0) L_abs = 1;
@@ -109,6 +111,8 @@ namespace lab02
             L_abs = 1;
             N_abs = 1;
 
+            (N_X, N_Y, N_Z) = this.ICMBL.GetNormalVector(x, y, N_X, N_Y, N_Z, this.k);
+
             // vector V
             double V_X = 0, V_Y = 0, V_Z = 1;
 
@@ -116,20 +120,22 @@ namespace lab02
             double N_L_dp = Math.Max(0, L_X * N_X + L_Y * N_Y + L_Z * N_Z);
             double R_X = 2 * N_L_dp * N_X - L_X, R_Y = 2 * N_L_dp * N_Y - L_Y, R_Z = 2 * N_L_dp * N_Z - L_Z;
 
+            // normalize R
+            double R_abs = Math.Sqrt(R_X * R_X + R_Y * R_Y + R_Z * R_Z);
+            R_X /= R_abs; R_Y /= R_abs; R_Z /= R_abs;
+
             double lambertCompositional;
             double mirrorCompositional;
 
             double V_R_dp = Math.Max(0, V_X * R_X + V_Y * R_Y + V_Z * R_Z);
-            double V_abs = Math.Sqrt(V_X * V_X + V_Y * V_Y + V_Z * V_Z);
-            double R_abs = Math.Sqrt(R_X * R_X + R_Y * R_Y + R_Z * R_Z);
-            double V_R_cos = Math.Max(Math.Pow((double) V_R_dp / (double) (V_abs * R_abs), this.m), 0);
+            double V_R_cos = Math.Max(Math.Pow(V_R_dp, this.m), 0);
 
             #endregion
 
             #region R
 
-            lambertCompositional = this.kd * ChosenColor.R * this.LightColor.R * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * ChosenColor.R * this.LightColor.R * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.R * LightColor.R * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.R * LightColor.R * V_R_cos;
 
             R = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -137,8 +143,8 @@ namespace lab02
 
             #region G
 
-            lambertCompositional = this.kd * ChosenColor.G * this.LightColor.G * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * ChosenColor.G * this.LightColor.G * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.G * LightColor.G * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.G * LightColor.G * V_R_cos;
 
             G = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -146,8 +152,8 @@ namespace lab02
 
             #region B
 
-            lambertCompositional = this.kd * ChosenColor.B * this.LightColor.B * N_L_dp; // abs(N) * abs(L) = 1
-            mirrorCompositional = this.ks * ChosenColor.B * this.LightColor.B * V_R_cos;
+            lambertCompositional = this.kd * ChosenColor.B * LightColor.B * N_L_dp; // abs(N) * abs(L) = 1
+            mirrorCompositional = this.ks * ChosenColor.B * LightColor.B * V_R_cos;
 
             B = Math.Min((lambertCompositional + mirrorCompositional) / 255, 255);
 
@@ -172,7 +178,7 @@ namespace lab02
 
         #region Light Source
 
-        private double DistanceFromLightSource = 1200;
+        private double DistanceFromLightSource = 600;
         private double LightX;
         private double LightY;
         private double _AnimationDegree;
@@ -180,6 +186,8 @@ namespace lab02
         private double phi = 0;
         private double r = 0;
         private double radius = 200;
+        private double animationCenterX = 100;
+        private double animationCenterY = 500;
 
         private TrackBar AnimationTrackBar;
 
@@ -190,8 +198,8 @@ namespace lab02
 
             this.r += this.AnimationTick;
 
-            this.LightX = (int)(this.r * Math.Cos(this.phi) + 200);
-            this.LightY = (int)(this.r * Math.Sin(this.phi) + 400);
+            this.LightX = (int)(this.r * Math.Cos(this.phi) + animationCenterX);
+            this.LightY = (int)(this.r * Math.Sin(this.phi) + animationCenterY);
 
             this._AnimationDegree = Math.Min(this.AnimationTrackBar.Maximum, Math.Max(0, this.r / radius * this.AnimationTrackBar.Maximum));
             this.AnimationTrackBar.Value = (int)this._AnimationDegree;
@@ -200,15 +208,15 @@ namespace lab02
         public void AnimationAdvance()
         {
             this._AnimationDegree = this.AnimationTrackBar.Value;
-            this.r = this._AnimationDegree * 200 / this.AnimationTrackBar.Maximum; 
+            this.r = this._AnimationDegree * this.radius / this.AnimationTrackBar.Maximum; 
             
             this.phi += 0.1;
             if (this.r > radius || this.r <= 0) this.AnimationTick *= -1;
 
             this.r += this.AnimationTick;
 
-            this.LightX = (int)(this.r * Math.Cos(this.phi) + 400);
-            this.LightY = (int)(this.r * Math.Sin(this.phi) + 200);
+            this.LightX = (int)(this.r * Math.Cos(this.phi) + animationCenterX);
+            this.LightY = (int)(this.r * Math.Sin(this.phi) + animationCenterY);
         }
 
         #endregion
