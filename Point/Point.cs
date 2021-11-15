@@ -27,7 +27,9 @@ namespace lab02
         }
 
         public System.Drawing.Point GetPoint() => new System.Drawing.Point((int)this.X, (int)this.Y);
- 
+
+        public bool PlanarilyParallel(Point p) => this.X == p.X && this.Y == p.Y;
+
         public static Point Empty { get { return new Point(true); } }
     }
 

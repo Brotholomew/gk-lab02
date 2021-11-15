@@ -32,6 +32,8 @@ namespace lab02
 
         public override void Move(Action<Drawable> how)
         {
+            this.ColorsCalculated = false;
+            this.PointsCalculated = false;
             this.AreaCalculated = false;
             this.PlaneCalculated = false;
 
@@ -53,38 +55,87 @@ namespace lab02
             Designer.Instance.MainContents.Add(this);
         }
 
-        public (Point A, Point B, Point C) GetPoints()
+        public void InvalidateGraphics() 
         {
-            Point A = Point.Empty, B = Point.Empty, C = Point.Empty;
+            this.ColorsCalculated = false;
+            this.PointsCalculated = false;
+        }
+
+        #region GetPoints
+
+        private Point PointA;
+        private Point PointB;
+        private Point PointC;
+
+        private bool PointsCalculated = false;
+
+        public void CalculatePoints()
+        {
+            if (this.PointsCalculated)
+                return;
+
+            this.PointsCalculated = true;
+
+            this.PointA = Point.Empty; this.PointB = Point.Empty; this.PointC = Point.Empty;
 
             foreach (var v in this.Vertices)
             {
-                if (A._Empty)
-                    A = v.Center;
-                else if (B._Empty)
-                    B = v.Center;
-                else if (C._Empty)
-                    C = v.Center;
+                if (this.PointA._Empty)
+                    this.PointA = v.Center;
+                else if (this.PointB._Empty)
+                    this.PointB = v.Center;
+                else if (this.PointC._Empty)
+                    this.PointC = v.Center;
             }
-            
-            return (A, B, C);
+        }
+
+        public (Point A, Point B, Point C) GetPoints()
+        {
+            if (!this.PointsCalculated)
+                this.CalculatePoints();
+
+            return (this.PointA, this.PointB, this.PointC);
+        }
+
+        #endregion
+
+        #region GetColors
+
+        private Color ColorB;
+        private Color ColorC;
+        private Color ColorA;
+
+        private bool ColorsCalculated = false;
+
+        public void CalculateColors()
+        {
+            if (this.ColorsCalculated)
+                return;
+
+            this.ColorsCalculated = true;
+
+            this.ColorA = Color.Empty; this.ColorB = Color.Empty; this.ColorC = Color.Empty;
+
+            foreach (var v in this.Vertices)
+            {
+                if (this.ColorA == Color.Empty)
+                    this.ColorA = v.Color;
+                else if (this.ColorB == Color.Empty)
+                    this.ColorB = v.Color;
+                else if (this.ColorC == Color.Empty)
+                    this.ColorC = v.Color;
+            }
         }
 
         public (Color cA, Color cB, Color cC) GetColors()
         {
-            Color cA = Color.Empty, cB = Color.Empty, cC = Color.Empty;
-            foreach (var v in this.Vertices)
-            {
-                if (cA == Color.Empty)
-                    cA = v.Color;
-                else if (cB == Color.Empty)
-                    cB = v.Color;
-                else if (cC == Color.Empty)
-                    cC = v.Color;
-            }
+            if (!this.ColorsCalculated)
+                this.CalculateColors();
 
-            return (cA, cB, cC);
+            return (this.ColorA, this.ColorB, this.ColorC);
         }
+
+        #endregion
 
         #region Plane
 
@@ -119,6 +170,8 @@ namespace lab02
         public override void PostMove() { }
         public override void Move(Point p) 
         {
+            this.ColorsCalculated = false;
+            this.PointsCalculated = false;
             this.AreaCalculated = false;
             this.PlaneCalculated = false;
         }

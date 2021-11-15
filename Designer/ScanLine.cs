@@ -15,18 +15,23 @@ namespace lab02
             foreach (var v in t.Vertices)
                 v.Color = this.CalculateColor((int)v.Center.X, (int)v.Center.Y, (int)v.Center.Z, t);
 
+            t.InvalidateGraphics();
+
             (double ymin, double ymax, List<Vertex> vertices, var yvertices) = SortVertices(d);
             List<node> aet = new List<node>();
 
             for (double i = ymin + 1; i <= ymax; i++)
             {
-                List<(Vertex vertex, int index)> VertList = yvertices.ContainsKey(i - 1) ? yvertices[i - 1] : new List<(Vertex vertex, int index)>();
-                foreach (var v in VertList)
+                if (yvertices.ContainsKey(i - 1))
                 {
-                    this.UpdateAET(v.vertex, this.GetPrevious(v.index, vertices), ref aet);
-                    this.UpdateAET(v.vertex, this.GetNext(v.index, vertices), ref aet);
+                    List<(Vertex vertex, int index)> VertList = yvertices[i - 1];
+                    foreach (var v in VertList)
+                    {
+                        this.UpdateAET(v.vertex, this.GetPrevious(v.index, vertices), ref aet);
+                        this.UpdateAET(v.vertex, this.GetNext(v.index, vertices), ref aet);
+                    }
                 }
-
+                
                 this.HandleAET(ref aet, (int)i, t);
             }
         }

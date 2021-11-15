@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace lab02
@@ -68,9 +69,17 @@ namespace lab02
 
         public void DrawTriangle(Triangle t)
         {
-            List<Vertex> temp = new List<Vertex>();
-            
             this.FillPoly(t);
+            this.DrawPerimiter(t);
+        }
+
+        public bool EnableGrid = false;
+
+        private void DrawPerimiter(Triangle t)
+        {
+            if (!this.EnableGrid) return;
+            
+            List<Vertex> temp = new List<Vertex>();
 
             foreach (var v in t.Vertices)
             {
@@ -82,6 +91,29 @@ namespace lab02
             {
                 this.Printer.PrintLine(temp[i % (temp.Count)].Center, temp[(i + 1) % temp.Count].Center, Color.Black);
             }
+        }
+
+        private void DrawPerimiters(HashSet<Drawable> ld)
+        {
+            if (!this.EnableGrid) return;
+
+            this.Printer.ModifyGraphics((Graphics gx) =>
+            {
+                foreach (var d in ld)
+                {
+                    List<Vertex> temp = new List<Vertex>();
+                    Triangle t = (Triangle)d;
+                    
+                    foreach (var v in t.Vertices)
+                    {
+                        temp.Add(v);
+                        this.Printer._FillEllipse(v.Center, Color.Black, gx, Brushes.Black);
+                    }
+
+                    for (int i = 0; i < temp.Count; i++)
+                        this.Printer._DrawLine(temp[i % (temp.Count)].Center, temp[(i + 1) % temp.Count].Center, Color.Black, gx, Pens.Black);
+                }
+            });
         }
 
         public void MoveToPreview(Drawable d)
@@ -123,11 +155,11 @@ namespace lab02
         {
             this.Printer.Blank();
 
-            foreach (var d in this.MainContents)
-                d.Print(this.PrintToMain);
+            Parallel.ForEach(this.MainContents, (Drawable d) => this.PrintToMain(() => this.FillPoly(d)));
+            Parallel.ForEach(this.PreviewContents, (Drawable d) => this.PrintToPreview(() => this.FillPoly(d)));
 
-            foreach (var d in this.PreviewContents)
-                d.Print(this.PrintToPreview);
+            this.PrintToMain(() => this.DrawPerimiters(this.MainContents));
+            this.PrintToPreview(() => this.DrawPerimiters(this.PreviewContents));
         }
 
         public void PrintToPreview(Action what)

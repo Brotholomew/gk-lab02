@@ -25,16 +25,16 @@ namespace lab02
 
         public override void Move(Action<Drawable> how)
         {
-            HashSet<Vertex> Vertices = new HashSet<Vertex>();
+            // HashSet<Vertex> Vertices = new HashSet<Vertex>();
 
             foreach (var t in this.Triangles)
             {
-                Vertices.UnionWith(t.Vertices);
+                // Vertices.UnionWith(t.Vertices);
                 t.Move(how);
                 //how(t);
             }
 
-            Vertices.UnionWith(new HashSet<Vertex> { this });
+            // Vertices.UnionWith(new HashSet<Vertex> { this });
 
             //foreach (var v in Vertices)
             //    how(v);

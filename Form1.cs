@@ -22,10 +22,10 @@ namespace lab02
         private void Init()
         {
             Designer.Init(Canvas, this.AnimationTrackBar.TickFrequency, this.AnimationTrackBar);
-            Designer.Instance.ICMBL = new ImageComboBoxLoader(this.TextureImageComboBox, this.LightColorComboBox);
+            Designer.Instance.ICMBL = new ImageComboBoxLoader(this.TextureImageComboBox, this.LightColorComboBox, this.ObjectColorImageComboBox);
 
             ColorChanged(null, null);
-            LightColorChanged(null, null);
+            // LightColorChanged(null, null);
             ScrollTriangulationDegreeTrackBar(null, null);
             ValueChangedAnimationTrackBar(null, null);
             ValueChangedKdScrollBar(null, null);
@@ -120,19 +120,6 @@ namespace lab02
             Designer.Instance.Printer.Refresh();
         }
 
-        private void LightColorChanged(object sender, EventArgs e)
-        {
-            if (Designer.Instance.ICMBL != null)
-                Designer.Instance.ICMBL.UpdateOptions();
-            //if (WhiteLightCheckBox.Checked)
-            //    Designer.Instance.LightColor = Color.White;
-            //else if (RedLighgtCheckBox.Checked)
-            //    Designer.Instance.LightColor = Color.Red;
-
-            Designer.Instance.Reprint();
-            Designer.Instance.Printer.Refresh();
-        }
-
         private void ClickAnimationButton(object sender, EventArgs e)
         {
             if (this.AnimationClock.Enabled)
@@ -154,6 +141,13 @@ namespace lab02
             Designer.Instance.k = KTrackBar.Value / 1000.0;
             KTextBox.Text = (KTrackBar.Value / 1000.0).ToString();
 
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
+        }
+
+        private void SwitchGrid(object sender, EventArgs e)
+        {
+            Designer.Instance.EnableGrid = CheckBoxGrid.Checked;
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
         }

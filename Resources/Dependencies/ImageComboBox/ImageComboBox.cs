@@ -43,6 +43,10 @@ namespace lab02
 
         public bool IsTexture = false;
 
+        public bool IsDummy = false;
+
+        public bool Choose = false;
+
         public DropDownItem()
             : this("")
         { }
@@ -79,6 +83,24 @@ namespace lab02
         public override string ToString()
         {
             return Value;
+        }
+
+        public static DropDownItem Dummy(string str)
+        {
+            DropDownItem item = new DropDownItem();
+            item.Value = str;
+            item.IsDummy = true;
+            
+            return item;
+        }
+
+        public static DropDownItem ChooseItem(string str)
+        {
+            DropDownItem item = new DropDownItem();
+            item.Value = str;
+            item.Choose = true;
+
+            return item;
         }
     }
 }
