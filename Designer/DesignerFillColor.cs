@@ -67,6 +67,8 @@ namespace lab02
 
         private Color CalculateColor(int x, int y, int z, Triangle t)
         {
+            // z = (int)Math.Sqrt(this.radius * this.radius - x * x - y * y);
+
             Color ChosenColor = this.ICMBL.GetColor(x, y, z);
             Color LightColor = this.ICMBL.LightColor;
 
@@ -96,7 +98,10 @@ namespace lab02
             #region variables
 
             // vector N
-            double N_X = t.pA, N_Y = t.pB, N_Z = t.pC;
+            double _x = (x - this.radius * 1.5) / 2;
+            double _y = (y - this.radius * 1.5) / 2;
+            double N_X = _x, N_Y = _y, N_Z = (int)Math.Sqrt(this.radius * this.radius - _x * _x - _y * _y);
+            //double N_X = t.pA, N_Y = t.pB, N_Z = t.pC;
 
             // vector L
             double L_X = this.LightX - x, L_Y = this.LightY - y, L_Z = this.DistanceFromLightSource - z;
