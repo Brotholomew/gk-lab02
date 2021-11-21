@@ -49,11 +49,7 @@ namespace lab02
                 if (item.IsTexture)
                 {
                     this.IsTexture = true;
-
                     this.ChosenImage = new DirectBitmap(item.RealImage);
-
-                    //this.ChosenImage = new DirectBitmap(Designer.Instance.Printer.Width, Designer.Instance.Printer.Height);
-                    //Designer.Instance.MapTexture(this.ChosenImage, new Bitmap(item.RealImage, Designer.Instance.Printer.Width, Designer.Instance.Printer.Height));
                 }
                 else
                 {
@@ -70,9 +66,6 @@ namespace lab02
             else
             {
                 this.ChosenTexture = new DirectBitmap(item.RealImage);
-
-                //this.ChosenTexture = new DirectBitmap(Designer.Instance.Printer.Width, Designer.Instance.Printer.Height);
-                //Designer.Instance.MapTexture(this.ChosenTexture, new Bitmap(item.RealImage, Designer.Instance.Printer.Width, Designer.Instance.Printer.Height));
             }
 
 
@@ -179,10 +172,6 @@ namespace lab02
                 L_X = k * L_X + v1 * t1 + v2 * b1 + v3 * L_X;
                 L_Y = k * L_Y + v1 * t2 + v2 * b2 + v3 * L_Y;
                 L_Z = k * L_Z + v1 * t3 + v2 * b3 + v3 * L_Z;
-
-                //L_X = k * L_X + (1 - k) * V_X;
-                //L_Y = k * L_Y + (1 - k) * V_Y;
-                //L_Z = k * L_Z + (1 - k) * V_Z;
             }
 
             return (L_X, L_Y, L_Z);
@@ -233,7 +222,6 @@ namespace lab02
             this.ObjectColor.Items.Add(new DropDownItem("Bricks", Image.FromFile("Resources\\Textures\\bricks_img.jpg")));
             this.ObjectColor.Items.Add(new DropDownItem("Thatched", Image.FromFile("Resources\\Textures\\thatched_img.jpg")));
             this.ObjectColor.Items.Add(new DropDownItem("Metal", Image.FromFile("Resources\\Textures\\metal_img.jpg")));
-            this.ObjectColor.Items.Add(new DropDownItem("Cracks", Image.FromFile("Resources\\Textures\\cracks_img.jpg")));
             this.ObjectColor.Items.Add(new DropDownItem("Stones", Image.FromFile("Resources\\Textures\\stones.gif")));
             this.ObjectColor.Items.Add(DropDownItem.ChooseItem("Choose color ..."));
             this.ObjectColor.Items.Add(DropDownItem.ChooseItem("Choose texture ..."));
@@ -245,7 +233,6 @@ namespace lab02
             this.Textures.Items.Add(new DropDownItem("Bricks", Image.FromFile("Resources\\Textures\\bricks.jpg")));
             this.Textures.Items.Add(new DropDownItem("Thatched", Image.FromFile("Resources\\Textures\\thatched.jpg")));
             this.Textures.Items.Add(new DropDownItem("Metal", Image.FromFile("Resources\\Textures\\metal.jpg")));
-            this.Textures.Items.Add(new DropDownItem("Cracks", Image.FromFile("Resources\\Textures\\cracks.jpg")));
             this.Textures.Items.Add(new DropDownItem("Stones", Image.FromFile("Resources\\Textures\\stones.gif")));
             this.Textures.Items.Add(DropDownItem.ChooseItem("Choose texture ..."));
         }

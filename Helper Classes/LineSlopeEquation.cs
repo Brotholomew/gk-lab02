@@ -22,7 +22,7 @@ namespace lab02
             if ((p2.X - p1.X) == 0)
                 a = double.PositiveInfinity;
             else
-                 a = (double)(p2.Y - p1.Y) / (double)(p2.X - p1.X);
+                a = (double)(p2.Y - p1.Y) / (double)(p2.X - p1.X);
 
             double b = p1.Y - p1.X * a;
 

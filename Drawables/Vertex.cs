@@ -23,21 +23,13 @@ namespace lab02
 
         public void AddTriangle(Triangle t) => this.AdjacentDrawables.Add(t);
 
+        #region Canvas Interactions
+
         public override void Move(Action<Drawable> how)
         {
-            // HashSet<Vertex> Vertices = new HashSet<Vertex>();
-
             foreach (var t in this.Triangles)
-            {
-                // Vertices.UnionWith(t.Vertices);
                 t.Move(how);
-                //how(t);
-            }
 
-            // Vertices.UnionWith(new HashSet<Vertex> { this });
-
-            //foreach (var v in Vertices)
-            //    how(v);
         }
 
         public override void Print(Action<Action> how) => how(() => Designer.Instance.DrawVertex(this));
@@ -50,6 +42,10 @@ namespace lab02
             this.Register();
             Designer.Instance.MainContents.Add(this);
         }
+
+        #endregion
+
+        #region Moving
 
         public override void PreMove() 
         {
@@ -97,5 +93,7 @@ namespace lab02
 
             Designer.Instance.Printer.Refresh();
         }
+
+        #endregion
     }
 }

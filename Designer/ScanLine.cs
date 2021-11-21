@@ -10,11 +10,16 @@ namespace lab02
         public void ScanLine(Drawable d)
         {
             Triangle t = (Triangle)d;
-            t.CalculatePlane();
+
+            // lazy load plane (calculate it per triangle, not per point)
+            t.CalculatePlane(); 
 
             foreach (var v in t.Vertices)
+                // lazy load the color of triangle vertices (calculate it per triangle, not per every point)
                 v.Color = this.CalculateColor((int)v.Center.X, (int)v.Center.Y, (int)v.Center.Z, t);
 
+            // Vertex coordinates and color have to be extracted from HashSets - this is a lazy loading flag that
+            // indicates that the values in HashSets have been updated - need to be extracted again 
             t.InvalidateGraphics();
 
             (double ymin, double ymax, List<Vertex> vertices, var yvertices) = SortVertices(d);
@@ -38,11 +43,14 @@ namespace lab02
 
         private void HandleAET(ref List<node> aet, int y, Triangle t)
         {
+            // sort aer edges based on their x coordinates
             aet.Sort((node n1, node n2) => n1.X.CompareTo(n2.X));
 
+            // color points between edges from aet
             for (int i = 0; i < aet.Count - 1; i++)
                 this.HorizontalLine(y, (int)aet[i].X, (int)aet[i + 1].X, t);
 
+            // update the inverse of the slope of each edge in the aet
             for (int i = 0; i < aet.Count; i++)
                 aet[i].X += aet[i].SlopeInverse;
         }
@@ -51,6 +59,7 @@ namespace lab02
         {
             node n = new node(vx.Center, v.Center, (int)v.Center.X);
 
+            // no horizontal lines
             if (double.IsInfinity(n.SlopeInverse))
                 return;
 
@@ -63,9 +72,12 @@ namespace lab02
         private (double ymin, double ymax, List<Vertex> vertices, Dictionary<double, List<(Vertex vertex, int index)>> yvertices) SortVertices(Drawable d)
         {
             List<Vertex> vertices = d.AdjacentDrawables.ConvertAll((Drawable d) => (Vertex)d).ToList();
+            
+            // keys - y coordinates, values - vertices and their indices in the vertices list
             Dictionary<double, List<(Vertex vertex, int index)>> yvertices = new Dictionary<double, List<(Vertex vertex, int index)>>();
 
             vertices.Sort((Vertex v1, Vertex v2) => v1.Center.Y.CompareTo(v2.Center.Y));
+            
             for (int i = 0; i < vertices.Count; i++)
             {
                 Vertex v = vertices[i];

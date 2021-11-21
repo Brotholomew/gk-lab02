@@ -11,7 +11,9 @@ namespace lab02
 
         public Drawable(Drawable d) => this.AdjacentDrawables = new HashSet<Drawable> { d };
         public Drawable(HashSet<Drawable> drawables) => this.AdjacentDrawables = drawables;
-        
+
+        #region Canvas Interactions
+
         public abstract void Print(Action<Action> how);
         public abstract void Move(Action<Drawable> how);
 
@@ -23,8 +25,14 @@ namespace lab02
         public abstract void Deregister();
         public abstract void AddToMain();
 
+        #endregion
+
+        #region Moving
+
         public abstract void PreMove();
         public abstract void PostMove();
         public abstract void Move(Point p);
+
+        #endregion
     }
 }

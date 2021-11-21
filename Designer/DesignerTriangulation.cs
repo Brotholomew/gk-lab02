@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DelaunatorSharp;
 
 namespace lab02
 {
@@ -11,42 +10,7 @@ namespace lab02
         {
             this.Blank();
             this.Triangulate(points);
-            this.Printer.Refresh(); ;
-            //var temp = Designer.Instance.FibonacciSphere(points);
-            //Designer.Instance.Triangulate(temp);
-        }
-
-        public void Triangulate(HashSet<IPoint> pts)
-        {
-            Delaunator d = new Delaunator(pts.ToArray());
-            Dictionary<IPoint, Vertex> tempMap = new Dictionary<IPoint, Vertex>();
-
-            d.ForEachTriangle((ITriangle t) =>
-            {
-                Triangle nt = new Triangle();
-                HashSet<Vertex> temp = new HashSet<Vertex>();
-
-                foreach (var p in t.Points)
-                {
-                    Vertex v = null;
-
-                    if (tempMap.ContainsKey(p))
-                        v = tempMap[p];
-                    else
-                    {
-                        v = new Vertex(p);
-                        tempMap.Add(p, v);
-                    }
-
-                    v.AdjacentDrawables.Add(nt);
-                    temp.Add(v);
-                }
-
-                nt.AdjacentDrawables.UnionWith(temp);
-
-                this.AddToMain(nt);
-                nt.Print(Designer.Instance.PrintToMain);
-            });
+            this.Printer.Refresh();
         }
 
         // source: https://www.codeproject.com/Articles/8238/Polygon-Triangulation-in-C
@@ -76,6 +40,7 @@ namespace lab02
 
                     Vertex v = new Vertex(new Point(x, y, z));
 
+                    // merge the same vertices that appear twice as first and last vertices
                     if (((y <= 301 && y >= 299) && x <= 300) &&
                         !repeatedVertices.ContainsKey(((int)x, (int)y)) &&
                         !repeatedVertices.ContainsKey(((int)x, (int)y - 1)) &&
