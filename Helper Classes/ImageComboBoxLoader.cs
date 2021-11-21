@@ -37,18 +37,28 @@ namespace lab02
                 
             }
             else if (item.Choose)
-                this.ChooseTexture(this.ObjectColor);
+            {
+                if (item.Value == "Choose color ...")
+                    this.ChooseColor(this.ObjectColor);
+                else
+                    this.ChooseTexture(this.ObjectColor);
+
+            }
             else
             {
                 if (item.IsTexture)
                 {
                     this.IsTexture = true;
+
                     this.ChosenImage = new DirectBitmap(item.RealImage);
+
+                    //this.ChosenImage = new DirectBitmap(Designer.Instance.Printer.Width, Designer.Instance.Printer.Height);
+                    //Designer.Instance.MapTexture(this.ChosenImage, new Bitmap(item.RealImage, Designer.Instance.Printer.Width, Designer.Instance.Printer.Height));
                 }
                 else
                 {
                     this.IsTexture = false;
-                    this.ChosenColor = Color.FromName(item.Value);
+                    this.ChosenColor = item.Color;
                 }
             }
 
@@ -58,12 +68,49 @@ namespace lab02
             else if (item.Choose)
                 this.ChooseTexture(this.Textures);
             else
+            {
                 this.ChosenTexture = new DirectBitmap(item.RealImage);
+
+                //this.ChosenTexture = new DirectBitmap(Designer.Instance.Printer.Width, Designer.Instance.Printer.Height);
+                //Designer.Instance.MapTexture(this.ChosenTexture, new Bitmap(item.RealImage, Designer.Instance.Printer.Width, Designer.Instance.Printer.Height));
+            }
 
 
             item = (DropDownItem)this.Light.SelectedItem;
-            if (!item.IsDummy)
-                this.LightColor = Color.FromName(item.Value);
+            if (item.IsDummy) { }
+            else if (item.Choose)
+                this.ChooseColor(this.Light);
+            else
+                this.LightColor = item.Color;
+        }
+
+        private void ChooseColor(ImageComboBox wrapper)
+        {
+            Color tmp = Color.Empty;
+
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                colorDialog.AllowFullOpen = true;
+                colorDialog.ShowHelp = false;
+                colorDialog.Color = this.ChosenColor;
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    tmp = colorDialog.Color;
+                }
+            }
+
+
+            if (tmp == Color.Empty)
+            {
+                wrapper.SelectedIndex = 0;
+                this.UpdateOptions();
+            }
+            else
+            {
+                wrapper.Items.Insert(0, new DropDownItem(tmp.Name, tmp));
+                wrapper.SelectedIndex = 0;
+                this.UpdateOptions();
+            }
         }
 
         private void ChooseTexture(ImageComboBox wrapper)
@@ -113,6 +160,9 @@ namespace lab02
         {
             if (this.ChosenTexture != null)
             {
+                var (b1, b2, b3) = CrossProduct(L_X, L_Y, L_Z, 0, 0, 1);
+                var (t1, t2, t3) = CrossProduct(b1, b2, b3, L_X, L_Y, L_Z);
+
                 x = Math.Max(x, 0); x = Math.Min(x, 599);
                 y = Math.Max(y, 0); y = Math.Min(y, 599);
 
@@ -122,12 +172,25 @@ namespace lab02
                 double V_Y = Transform(c.G);
                 double V_Z = Transform(c.B);
 
-                L_X = k * L_X + (1 - k) * V_X;
-                L_Y = k * L_Y + (1 - k) * V_Y;
-                L_Z = k * L_Z + (1 - k) * V_Z;
+                double v1 = (1 - k) * V_X;
+                double v2 = (1 - k) * V_Y;
+                double v3 = (1 - k) * V_Z;
+
+                L_X = k * L_X + v1 * t1 + v2 * b1 + v3 * L_X;
+                L_Y = k * L_Y + v1 * t2 + v2 * b2 + v3 * L_Y;
+                L_Z = k * L_Z + v1 * t3 + v2 * b3 + v3 * L_Z;
+
+                //L_X = k * L_X + (1 - k) * V_X;
+                //L_Y = k * L_Y + (1 - k) * V_Y;
+                //L_Z = k * L_Z + (1 - k) * V_Z;
             }
 
             return (L_X, L_Y, L_Z);
+        }
+
+        private (double x, double y, double z) CrossProduct(double x1, double y1, double z1, double x2, double y2, double z2)
+        {
+            return (y1 * z2 - y2 * z1, z1 * x2 - z2 * x1, z1 * y2 - x2 * y1);
         }
 
         private double Transform(double v)
@@ -162,15 +225,17 @@ namespace lab02
         private void LoadLightColors()
         {
             this.Light.Items.Add(new DropDownItem("White"));
+            this.Light.Items.Add(DropDownItem.ChooseItem("Choose color ..."));
         }
 
         private void LoadObjectTextures()
         {
-            this.ObjectColor.Items.Add(new DropDownItem("Bricks", Image.FromFile("Resources\\Textures\\bricks.jpg")));
-            this.ObjectColor.Items.Add(new DropDownItem("Circle", Image.FromFile("Resources\\Textures\\circle.png")));
-            this.ObjectColor.Items.Add(new DropDownItem("Hexagons", Image.FromFile("Resources\\Textures\\hexagons.jpg")));
-            this.ObjectColor.Items.Add(new DropDownItem("Pattern", Image.FromFile("Resources\\Textures\\pattern.png")));
+            this.ObjectColor.Items.Add(new DropDownItem("Bricks", Image.FromFile("Resources\\Textures\\bricks_img.jpg")));
+            this.ObjectColor.Items.Add(new DropDownItem("Thatched", Image.FromFile("Resources\\Textures\\thatched_img.jpg")));
+            this.ObjectColor.Items.Add(new DropDownItem("Metal", Image.FromFile("Resources\\Textures\\metal_img.jpg")));
+            this.ObjectColor.Items.Add(new DropDownItem("Cracks", Image.FromFile("Resources\\Textures\\cracks_img.jpg")));
             this.ObjectColor.Items.Add(new DropDownItem("Stones", Image.FromFile("Resources\\Textures\\stones.gif")));
+            this.ObjectColor.Items.Add(DropDownItem.ChooseItem("Choose color ..."));
             this.ObjectColor.Items.Add(DropDownItem.ChooseItem("Choose texture ..."));
         }
 
@@ -178,9 +243,9 @@ namespace lab02
         {
             this.Textures.Items.Add(DropDownItem.Dummy("No texture"));
             this.Textures.Items.Add(new DropDownItem("Bricks", Image.FromFile("Resources\\Textures\\bricks.jpg")));
-            this.Textures.Items.Add(new DropDownItem("Circle", Image.FromFile("Resources\\Textures\\circle.png")));
-            this.Textures.Items.Add(new DropDownItem("Hexagons", Image.FromFile("Resources\\Textures\\hexagons.jpg")));
-            this.Textures.Items.Add(new DropDownItem("Pattern", Image.FromFile("Resources\\Textures\\pattern.png")));
+            this.Textures.Items.Add(new DropDownItem("Thatched", Image.FromFile("Resources\\Textures\\thatched.jpg")));
+            this.Textures.Items.Add(new DropDownItem("Metal", Image.FromFile("Resources\\Textures\\metal.jpg")));
+            this.Textures.Items.Add(new DropDownItem("Cracks", Image.FromFile("Resources\\Textures\\cracks.jpg")));
             this.Textures.Items.Add(new DropDownItem("Stones", Image.FromFile("Resources\\Textures\\stones.gif")));
             this.Textures.Items.Add(DropDownItem.ChooseItem("Choose texture ..."));
         }

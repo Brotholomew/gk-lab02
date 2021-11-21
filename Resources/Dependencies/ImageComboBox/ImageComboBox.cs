@@ -41,6 +41,8 @@ namespace lab02
 
         public Image RealImage { get; set; }
 
+        public Color Color { get; set; }
+
         public bool IsTexture = false;
 
         public bool IsDummy = false;
@@ -55,9 +57,10 @@ namespace lab02
         {
             Value = val;
             Image = new Bitmap(16, 16);
+            this.Color = Color.FromName(val);
             using (Graphics g = Graphics.FromImage(Image))
             {
-                using (Brush b = new SolidBrush(Color.FromName(val)))
+                using (Brush b = new SolidBrush(this.Color))
                 {
                     g.DrawRectangle(Pens.White, 0, 0, Image.Width, Image.Height);
                     g.FillRectangle(b, 1, 1, Image.Width - 1, Image.Height - 1);
@@ -78,6 +81,21 @@ namespace lab02
             }
 
             this.IsTexture = true;
+        }
+
+        public DropDownItem(string val, Color c)
+        {
+            Value = val;
+            Image = new Bitmap(16, 16);
+            this.Color = c;
+            using (Graphics g = Graphics.FromImage(Image))
+            {
+                using (Brush b = new SolidBrush(c))
+                {
+                    g.DrawRectangle(Pens.White, 0, 0, Image.Width, Image.Height);
+                    g.FillRectangle(b, 1, 1, Image.Width - 1, Image.Height - 1);
+                }
+            }
         }
 
         public override string ToString()
