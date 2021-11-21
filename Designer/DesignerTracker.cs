@@ -40,6 +40,10 @@ namespace lab02
                 this.Mode = Designer.TrackerModes.FollowMouse;
                 this.Tracked.PreMove();
             }
+
+            Designer.Instance.Printer.Blank();
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         public void MouseUp()
@@ -51,6 +55,10 @@ namespace lab02
             }
 
             this.Mode = Designer.TrackerModes.Off;
+
+            Designer.Instance.Printer.Blank();
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         public Drawable Track(Point p)
@@ -67,8 +75,8 @@ namespace lab02
                         if (i == -k || i == k || j == -k || j == k)
                         {
                             Point np = new Point(p.X + i, p.Y + j);
-                            if (this.DrawablesMap.ContainsKey(np) && this.DrawablesMap[np].Count > 0)
-                                return this.DrawablesMap[np][0];
+                            if (this.DrawablesMap.ContainsKey(np.GetPoint()) && this.DrawablesMap[np.GetPoint()].Count > 0)
+                                return this.DrawablesMap[np.GetPoint()][0];
                         }
                         else
                             continue;

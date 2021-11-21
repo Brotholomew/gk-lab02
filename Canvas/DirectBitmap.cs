@@ -16,7 +16,23 @@ namespace lab02
 
         protected GCHandle BitsHandle { get; private set; }
 
-        public DirectBitmap(int width, int height)
+        public DirectBitmap(int width, int height) => this.Init(width, height);
+
+        public DirectBitmap(Image image)
+        {
+            Bitmap tmp = new Bitmap(image, Designer.Instance.Printer.Width, Designer.Instance.Printer.Height);
+            this.Init(tmp.Width, tmp.Height);
+            this.CopyPixels(tmp);
+        }
+
+        private void CopyPixels(Bitmap image)
+        {
+            for (int i = 0; i < this.Width; i++)
+                for (int j = 0; j < this.Height; j++)
+                    this.SetPixel(i, j, image.GetPixel(i, j));
+        }
+
+        private void Init(int width, int height)
         {
             Width = width;
             Height = height;

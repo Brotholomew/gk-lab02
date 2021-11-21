@@ -1,4 +1,5 @@
-﻿namespace DelaunatorSharp
+﻿using lab02;
+namespace DelaunatorSharp
 {
     public struct Edge : IEdge
     {

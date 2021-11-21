@@ -33,9 +33,6 @@ namespace lab02
             this.Canvas = new System.Windows.Forms.PictureBox();
             this.TriangulationDegreeTrackBar = new System.Windows.Forms.TrackBar();
             this.TriangulationDegreeLabel = new System.Windows.Forms.Label();
-            this.RadioButtonColorRed = new System.Windows.Forms.RadioButton();
-            this.ColorGroupBox = new System.Windows.Forms.GroupBox();
-            this.RadioButtonColorGreen = new System.Windows.Forms.RadioButton();
             this.TriangulationDegreeTextBox = new System.Windows.Forms.TextBox();
             this.KdTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,17 +46,24 @@ namespace lab02
             this.AnimationTrackBar = new System.Windows.Forms.TrackBar();
             this.AnimationButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.LightColorGroupBox = new System.Windows.Forms.GroupBox();
-            this.RedLighgtCheckBox = new System.Windows.Forms.RadioButton();
-            this.WhiteLightCheckBox = new System.Windows.Forms.RadioButton();
+            this.InterpolationCheckBox = new System.Windows.Forms.CheckBox();
+            this.KTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.KTrackBar = new System.Windows.Forms.TrackBar();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TextureImageComboBox = new lab02.ImageComboBox();
+            this.LightColorComboBox = new lab02.ImageComboBox();
+            this.ObjectColorImageComboBox = new lab02.ImageComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.CheckBoxGrid = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TriangulationDegreeTrackBar)).BeginInit();
-            this.ColorGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.KdTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KsTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnimationTrackBar)).BeginInit();
-            this.LightColorGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // Canvas
@@ -77,13 +81,12 @@ namespace lab02
             // TriangulationDegreeTrackBar
             // 
             this.TriangulationDegreeTrackBar.Location = new System.Drawing.Point(606, 40);
-            this.TriangulationDegreeTrackBar.Maximum = 2500;
-            this.TriangulationDegreeTrackBar.Minimum = 500;
+            this.TriangulationDegreeTrackBar.Maximum = 128;
+            this.TriangulationDegreeTrackBar.Minimum = 3;
             this.TriangulationDegreeTrackBar.Name = "TriangulationDegreeTrackBar";
             this.TriangulationDegreeTrackBar.Size = new System.Drawing.Size(215, 45);
             this.TriangulationDegreeTrackBar.TabIndex = 1;
-            this.TriangulationDegreeTrackBar.TickFrequency = 10;
-            this.TriangulationDegreeTrackBar.Value = 500;
+            this.TriangulationDegreeTrackBar.Value = 20;
             this.TriangulationDegreeTrackBar.ValueChanged += new System.EventHandler(this.ScrollTriangulationDegreeTrackBar);
             // 
             // TriangulationDegreeLabel
@@ -94,41 +97,6 @@ namespace lab02
             this.TriangulationDegreeLabel.Size = new System.Drawing.Size(116, 15);
             this.TriangulationDegreeLabel.TabIndex = 2;
             this.TriangulationDegreeLabel.Text = "Triangulation Degree";
-            // 
-            // RadioButtonColorRed
-            // 
-            this.RadioButtonColorRed.AutoSize = true;
-            this.RadioButtonColorRed.Checked = true;
-            this.RadioButtonColorRed.Location = new System.Drawing.Point(6, 22);
-            this.RadioButtonColorRed.Name = "RadioButtonColorRed";
-            this.RadioButtonColorRed.Size = new System.Drawing.Size(45, 19);
-            this.RadioButtonColorRed.TabIndex = 3;
-            this.RadioButtonColorRed.TabStop = true;
-            this.RadioButtonColorRed.Text = "Red";
-            this.RadioButtonColorRed.UseVisualStyleBackColor = true;
-            this.RadioButtonColorRed.CheckedChanged += new System.EventHandler(this.ColorChanged);
-            // 
-            // ColorGroupBox
-            // 
-            this.ColorGroupBox.Controls.Add(this.RadioButtonColorGreen);
-            this.ColorGroupBox.Controls.Add(this.RadioButtonColorRed);
-            this.ColorGroupBox.Location = new System.Drawing.Point(621, 321);
-            this.ColorGroupBox.Name = "ColorGroupBox";
-            this.ColorGroupBox.Size = new System.Drawing.Size(279, 80);
-            this.ColorGroupBox.TabIndex = 4;
-            this.ColorGroupBox.TabStop = false;
-            this.ColorGroupBox.Text = "Select object color";
-            // 
-            // RadioButtonColorGreen
-            // 
-            this.RadioButtonColorGreen.AutoSize = true;
-            this.RadioButtonColorGreen.Location = new System.Drawing.Point(6, 48);
-            this.RadioButtonColorGreen.Name = "RadioButtonColorGreen";
-            this.RadioButtonColorGreen.Size = new System.Drawing.Size(56, 19);
-            this.RadioButtonColorGreen.TabIndex = 4;
-            this.RadioButtonColorGreen.Text = "Green";
-            this.RadioButtonColorGreen.UseVisualStyleBackColor = true;
-            this.RadioButtonColorGreen.CheckedChanged += new System.EventHandler(this.ColorChanged);
             // 
             // TriangulationDegreeTextBox
             // 
@@ -162,6 +130,7 @@ namespace lab02
             this.KdTrackBar.Name = "KdTrackBar";
             this.KdTrackBar.Size = new System.Drawing.Size(215, 45);
             this.KdTrackBar.TabIndex = 6;
+            this.KdTrackBar.Value = 500;
             this.KdTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedKdScrollBar);
             // 
             // KsTextBox
@@ -188,6 +157,7 @@ namespace lab02
             this.KsTrackBar.Name = "KsTrackBar";
             this.KsTrackBar.Size = new System.Drawing.Size(215, 45);
             this.KsTrackBar.TabIndex = 9;
+            this.KsTrackBar.Value = 700;
             this.KsTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedKsScrollBar);
             // 
             // MTextBox
@@ -218,8 +188,8 @@ namespace lab02
             // 
             // AnimationTrackBar
             // 
-            this.AnimationTrackBar.Location = new System.Drawing.Point(606, 270);
-            this.AnimationTrackBar.Maximum = 100;
+            this.AnimationTrackBar.Location = new System.Drawing.Point(606, 347);
+            this.AnimationTrackBar.Maximum = 1000;
             this.AnimationTrackBar.Name = "AnimationTrackBar";
             this.AnimationTrackBar.Size = new System.Drawing.Size(215, 45);
             this.AnimationTrackBar.TabIndex = 15;
@@ -229,7 +199,7 @@ namespace lab02
             // 
             this.AnimationButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AnimationButton.BackgroundImage")));
             this.AnimationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.AnimationButton.Location = new System.Drawing.Point(849, 270);
+            this.AnimationButton.Location = new System.Drawing.Point(849, 347);
             this.AnimationButton.Name = "AnimationButton";
             this.AnimationButton.Size = new System.Drawing.Size(30, 30);
             this.AnimationButton.TabIndex = 16;
@@ -239,53 +209,136 @@ namespace lab02
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(621, 252);
+            this.label4.Location = new System.Drawing.Point(621, 329);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(129, 15);
             this.label4.TabIndex = 17;
             this.label4.Text = "Light source animation";
             // 
-            // LightColorGroupBox
+            // InterpolationCheckBox
             // 
-            this.LightColorGroupBox.Controls.Add(this.RedLighgtCheckBox);
-            this.LightColorGroupBox.Controls.Add(this.WhiteLightCheckBox);
-            this.LightColorGroupBox.Location = new System.Drawing.Point(621, 407);
-            this.LightColorGroupBox.Name = "LightColorGroupBox";
-            this.LightColorGroupBox.Size = new System.Drawing.Size(279, 80);
-            this.LightColorGroupBox.TabIndex = 5;
-            this.LightColorGroupBox.TabStop = false;
-            this.LightColorGroupBox.Text = "Select light color";
+            this.InterpolationCheckBox.AutoSize = true;
+            this.InterpolationCheckBox.Location = new System.Drawing.Point(621, 547);
+            this.InterpolationCheckBox.Name = "InterpolationCheckBox";
+            this.InterpolationCheckBox.Size = new System.Drawing.Size(126, 19);
+            this.InterpolationCheckBox.TabIndex = 18;
+            this.InterpolationCheckBox.Text = "Color Interpolation";
+            this.InterpolationCheckBox.UseVisualStyleBackColor = true;
+            this.InterpolationCheckBox.CheckedChanged += new System.EventHandler(this.CheckedChangedColorInterpolation);
             // 
-            // RedLighgtCheckBox
+            // KTextBox
             // 
-            this.RedLighgtCheckBox.AutoSize = true;
-            this.RedLighgtCheckBox.Location = new System.Drawing.Point(6, 48);
-            this.RedLighgtCheckBox.Name = "RedLighgtCheckBox";
-            this.RedLighgtCheckBox.Size = new System.Drawing.Size(45, 19);
-            this.RedLighgtCheckBox.TabIndex = 4;
-            this.RedLighgtCheckBox.Text = "Red";
-            this.RedLighgtCheckBox.UseVisualStyleBackColor = true;
-            this.RedLighgtCheckBox.CheckedChanged += new System.EventHandler(this.LightColorChanged);
+            this.KTextBox.Location = new System.Drawing.Point(828, 281);
+            this.KTextBox.Name = "KTextBox";
+            this.KTextBox.ReadOnly = true;
+            this.KTextBox.Size = new System.Drawing.Size(72, 23);
+            this.KTextBox.TabIndex = 21;
             // 
-            // WhiteLightCheckBox
+            // label5
             // 
-            this.WhiteLightCheckBox.AutoSize = true;
-            this.WhiteLightCheckBox.Checked = true;
-            this.WhiteLightCheckBox.Location = new System.Drawing.Point(6, 22);
-            this.WhiteLightCheckBox.Name = "WhiteLightCheckBox";
-            this.WhiteLightCheckBox.Size = new System.Drawing.Size(56, 19);
-            this.WhiteLightCheckBox.TabIndex = 3;
-            this.WhiteLightCheckBox.TabStop = true;
-            this.WhiteLightCheckBox.Text = "White";
-            this.WhiteLightCheckBox.UseVisualStyleBackColor = true;
-            this.WhiteLightCheckBox.CheckedChanged += new System.EventHandler(this.LightColorChanged);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(621, 263);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(72, 15);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "k coefficient";
+            // 
+            // KTrackBar
+            // 
+            this.KTrackBar.Location = new System.Drawing.Point(606, 281);
+            this.KTrackBar.Maximum = 1000;
+            this.KTrackBar.Name = "KTrackBar";
+            this.KTrackBar.Size = new System.Drawing.Size(215, 45);
+            this.KTrackBar.TabIndex = 19;
+            this.KTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedKScrollBar);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(621, 437);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 15);
+            this.label6.TabIndex = 24;
+            this.label6.Text = "Texture";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(621, 487);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(66, 15);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "Light Color";
+            // 
+            // TextureImageComboBox
+            // 
+            this.TextureImageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.TextureImageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.TextureImageComboBox.FormattingEnabled = true;
+            this.TextureImageComboBox.Location = new System.Drawing.Point(616, 455);
+            this.TextureImageComboBox.Name = "TextureImageComboBox";
+            this.TextureImageComboBox.Size = new System.Drawing.Size(284, 24);
+            this.TextureImageComboBox.TabIndex = 26;
+            this.TextureImageComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorChanged);
+            // 
+            // LightColorComboBox
+            // 
+            this.LightColorComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.LightColorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.LightColorComboBox.FormattingEnabled = true;
+            this.LightColorComboBox.Location = new System.Drawing.Point(616, 505);
+            this.LightColorComboBox.Name = "LightColorComboBox";
+            this.LightColorComboBox.Size = new System.Drawing.Size(284, 24);
+            this.LightColorComboBox.TabIndex = 27;
+            this.LightColorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorChanged);
+            // 
+            // ObjectColorImageComboBox
+            // 
+            this.ObjectColorImageComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.ObjectColorImageComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ObjectColorImageComboBox.FormattingEnabled = true;
+            this.ObjectColorImageComboBox.Location = new System.Drawing.Point(616, 407);
+            this.ObjectColorImageComboBox.Name = "ObjectColorImageComboBox";
+            this.ObjectColorImageComboBox.Size = new System.Drawing.Size(284, 24);
+            this.ObjectColorImageComboBox.TabIndex = 29;
+            this.ObjectColorImageComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(621, 389);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(74, 15);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Object Color";
+            // 
+            // CheckBoxGrid
+            // 
+            this.CheckBoxGrid.AutoSize = true;
+            this.CheckBoxGrid.Location = new System.Drawing.Point(763, 547);
+            this.CheckBoxGrid.Name = "CheckBoxGrid";
+            this.CheckBoxGrid.Size = new System.Drawing.Size(78, 19);
+            this.CheckBoxGrid.TabIndex = 30;
+            this.CheckBoxGrid.Text = "Grid Lines";
+            this.CheckBoxGrid.UseVisualStyleBackColor = true;
+            this.CheckBoxGrid.CheckedChanged += new System.EventHandler(this.SwitchGrid);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 600);
-            this.Controls.Add(this.LightColorGroupBox);
+            this.Controls.Add(this.CheckBoxGrid);
+            this.Controls.Add(this.ObjectColorImageComboBox);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.LightColorComboBox);
+            this.Controls.Add(this.TextureImageComboBox);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.KTextBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.KTrackBar);
+            this.Controls.Add(this.InterpolationCheckBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.AnimationButton);
             this.Controls.Add(this.AnimationTrackBar);
@@ -299,7 +352,6 @@ namespace lab02
             this.Controls.Add(this.label1);
             this.Controls.Add(this.KdTrackBar);
             this.Controls.Add(this.TriangulationDegreeTextBox);
-            this.Controls.Add(this.ColorGroupBox);
             this.Controls.Add(this.TriangulationDegreeLabel);
             this.Controls.Add(this.TriangulationDegreeTrackBar);
             this.Controls.Add(this.Canvas);
@@ -307,14 +359,11 @@ namespace lab02
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TriangulationDegreeTrackBar)).EndInit();
-            this.ColorGroupBox.ResumeLayout(false);
-            this.ColorGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.KdTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.KsTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnimationTrackBar)).EndInit();
-            this.LightColorGroupBox.ResumeLayout(false);
-            this.LightColorGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,9 +374,6 @@ namespace lab02
         private System.Windows.Forms.PictureBox Canvas;
         private System.Windows.Forms.TrackBar TriangulationDegreeTrackBar;
         private System.Windows.Forms.Label TriangulationDegreeLabel;
-        private System.Windows.Forms.RadioButton RadioButtonColorRed;
-        private System.Windows.Forms.GroupBox ColorGroupBox;
-        private System.Windows.Forms.RadioButton RadioButtonColorGreen;
         private System.Windows.Forms.TextBox TriangulationDegreeTextBox;
         private System.Windows.Forms.TextBox KdTextBox;
         private System.Windows.Forms.Label label1;
@@ -341,9 +387,17 @@ namespace lab02
         private System.Windows.Forms.TrackBar AnimationTrackBar;
         private System.Windows.Forms.Button AnimationButton;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox LightColorGroupBox;
-        private System.Windows.Forms.RadioButton RedLighgtCheckBox;
-        private System.Windows.Forms.RadioButton WhiteLightCheckBox;
+        private System.Windows.Forms.CheckBox InterpolationCheckBox;
+        private System.Windows.Forms.TextBox KTextBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar KTrackBar;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private ImageComboBox TextureImageComboBox;
+        private ImageComboBox LightColorComboBox;
+        private ImageComboBox ObjectColorImageComboBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox CheckBoxGrid;
     }
 }
 

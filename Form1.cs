@@ -12,19 +12,33 @@ namespace lab02
 {
     public partial class Form1 : Form
     {
+        private Timer AnimationClock;
         public Form1()
         {
             InitializeComponent();
+            this.Init();
+        }
 
-            Designer.Init(Canvas);
+        private void Init()
+        {
+            Designer.Init(Canvas, this.AnimationTrackBar.TickFrequency, this.AnimationTrackBar);
+            Designer.Instance.ICMBL = new ImageComboBoxLoader(this.TextureImageComboBox, this.LightColorComboBox, this.ObjectColorImageComboBox);
+
             ColorChanged(null, null);
-            LightColorChanged(null, null);
+            // LightColorChanged(null, null);
             ScrollTriangulationDegreeTrackBar(null, null);
             ValueChangedAnimationTrackBar(null, null);
             ValueChangedKdScrollBar(null, null);
             ValueChangedKsScrollBar(null, null);
             ValueChangedMScrollBar(null, null);
+            ValueChangedAnimationTrackBar(null, null);
+            CheckedChangedColorInterpolation(null, null);
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
+
+            this.AnimationClock = new Timer();
+            AnimationClock.Interval = 10;
+            AnimationClock.Tick += Designer.Instance.UpdateLightSourcePosition;
+            AnimationClock.Start();
         }
 
         private void PaintCanvas(object sender, PaintEventArgs e)
@@ -41,7 +55,7 @@ namespace lab02
 
         private void MouseDownCanvas(object sender, MouseEventArgs e)
         {
-            Designer.Instance.MouseDown(e.Location);
+            Designer.Instance.MouseDown(new Point(e.Location.X, e.Location.Y));
         }
 
         private void MouseUpCanvas(object sender, MouseEventArgs e)
@@ -51,15 +65,17 @@ namespace lab02
 
         private void MouseMoveCanvas(object sender, MouseEventArgs e)
         {
-            Designer.Instance.FollowMouse(e.Location, this);
+            Designer.Instance.FollowMouse(new Point(e.Location.X, e.Location.Y), this);
         }
 
         private void ColorChanged(object sender, EventArgs e)
         {
-            if (RadioButtonColorGreen.Checked)
-                Designer.Instance.ChosenColor = Color.Green;
-            else if (RadioButtonColorRed.Checked)
-                Designer.Instance.ChosenColor = Color.Red;
+            if (Designer.Instance.ICMBL != null)
+                Designer.Instance.ICMBL.UpdateOptions();
+            //if (RadioButtonColorGreen.Checked)
+            //    Designer.Instance.ChosenColor = Color.Green;
+            //else if (RadioButtonColorRed.Checked)
+            //    Designer.Instance.ChosenColor = Color.Red;
 
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
@@ -71,6 +87,9 @@ namespace lab02
 
             Designer.Instance.kd = val;
             KdTextBox.Text = val.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedKsScrollBar(object sender, EventArgs e)
@@ -79,25 +98,23 @@ namespace lab02
             
             Designer.Instance.ks = val;
             KsTextBox.Text = val.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedMScrollBar(object sender, EventArgs e)
         {
             Designer.Instance.m = MTrackBar.Value;
             MTextBox.Text = MTrackBar.Value.ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
 
         private void ValueChangedAnimationTrackBar(object sender, EventArgs e)
         {
-            Designer.Instance.AnimationDegree = AnimationTrackBar.Value;
-        }
-
-        private void LightColorChanged(object sender, EventArgs e)
-        {
-            if (WhiteLightCheckBox.Checked)
-                Designer.Instance.LightColor = Color.White;
-            else if (RedLighgtCheckBox.Checked)
-                Designer.Instance.LightColor = Color.Red;
+            Designer.Instance.AnimationAdvance();
 
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
@@ -105,7 +122,34 @@ namespace lab02
 
         private void ClickAnimationButton(object sender, EventArgs e)
         {
+            if (this.AnimationClock.Enabled)
+                this.AnimationClock.Stop();
+            else
+                this.AnimationClock.Start();
+        }
 
+        private void CheckedChangedColorInterpolation(object sender, EventArgs e)
+        {
+            Designer.Instance.ColorInterpolation = this.InterpolationCheckBox.Checked;
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
+        }
+
+        private void ValueChangedKScrollBar(object sender, EventArgs e)
+        {
+            Designer.Instance.k = KTrackBar.Value / 1000.0;
+            KTextBox.Text = (KTrackBar.Value / 1000.0).ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
+        }
+
+        private void SwitchGrid(object sender, EventArgs e)
+        {
+            Designer.Instance.EnableGrid = CheckBoxGrid.Checked;
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
         }
     }
 }

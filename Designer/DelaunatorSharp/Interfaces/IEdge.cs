@@ -1,4 +1,6 @@
-﻿namespace DelaunatorSharp
+﻿using lab02;
+
+namespace DelaunatorSharp
 {
     public interface IEdge
     {
