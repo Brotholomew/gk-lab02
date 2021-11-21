@@ -8,13 +8,20 @@ namespace lab02
 {
     public class Printer
     {
+        #region Private Fields
+
         private static readonly int VertexRadius = 3;
         private static readonly int DEBUG = 1;
-        public DirectBitmap Preview { get; private set; }
-        public DirectBitmap Main { get; private set; }
-
+        
         private DirectBitmap CurrentBitmap;
         private PictureBox CanvasWrapper;
+
+        #endregion
+
+        #region Implementation Specific Methods and Fields
+
+        public DirectBitmap Preview { get; private set; }
+        public DirectBitmap Main { get; private set; }
 
         public enum PrintMode { Preview, Main }
         public void SwitchBitmap(PrintMode how)
@@ -32,15 +39,6 @@ namespace lab02
 
         public int Width { get; private set; }
         public int Height { get; private set; }
-
-        public Printer(int width, int height, PictureBox canvasWrapper)
-        {
-            this.Width = width;
-            this.Height = height;
-
-            this.Blank();
-            this.CanvasWrapper = canvasWrapper;
-        }
 
         public void Blank()
         {
@@ -63,6 +61,19 @@ namespace lab02
             this.CanvasWrapper.Invalidate();
             this.CanvasWrapper.Update();
         }
+
+        #endregion
+
+        public Printer(int width, int height, PictureBox canvasWrapper)
+        {
+            this.Width = width;
+            this.Height = height;
+
+            this.Blank();
+            this.CanvasWrapper = canvasWrapper;
+        }
+
+        #region Printing and Drawing
 
         public void PutPixel(Point p, Color c) => this.CurrentBitmap.SetPixel((int)p.X, (int)p.Y, c);
         public void PutVertex(Point p, Color c) => ModifyGraphics((Graphics g) => 
@@ -100,5 +111,7 @@ namespace lab02
             if (Printer.DEBUG == 1)
                 this.ModifyGraphics((Graphics g) => g.DrawString(debugMsg, SystemFonts.DefaultFont, Brushes.Black, p.GetPoint()));
         }
+
+        #endregion
     }
 }

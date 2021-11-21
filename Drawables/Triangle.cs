@@ -12,21 +12,9 @@ namespace lab02
 
         public HashSet<Vertex> Vertices { get => this.AdjacentDrawables.ConvertAll((Drawable d) => (Vertex)d); }
 
-        private bool AreaCalculated = false;
-        private double _Area;
-        public double Area { get
-            {
-                if (!this.AreaCalculated)
-                {
-                    this.AreaCalculated = true;
-                    this._Area = Functors.CalculateTriangleArea(this);
-                }
-
-                return this._Area;
-            }
-        }
-
         public void AddTriangle(Triangle t) => this.AdjacentDrawables.Add(t);
+
+        #region Canvas Interactions
 
         public override void Delete() => Designer.Instance.DeleteTriangle(this);
 
@@ -34,7 +22,6 @@ namespace lab02
         {
             this.ColorsCalculated = false;
             this.PointsCalculated = false;
-            this.AreaCalculated = false;
             this.PlaneCalculated = false;
 
             how(this);
@@ -54,6 +41,8 @@ namespace lab02
 
             Designer.Instance.MainContents.Add(this);
         }
+
+        #endregion
 
         public void InvalidateGraphics() 
         {
@@ -165,15 +154,19 @@ namespace lab02
 
         #endregion
 
+        #region Moving
+
         // methods not implemented for Triangles
         public override void PreMove() { }
         public override void PostMove() { }
+
         public override void Move(Point p) 
         {
             this.ColorsCalculated = false;
             this.PointsCalculated = false;
-            this.AreaCalculated = false;
             this.PlaneCalculated = false;
         }
+
+        #endregion
     }
 }

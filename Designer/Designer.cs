@@ -56,29 +56,10 @@ namespace lab02
                 this.MainContents.Remove(d);
         }
 
-        #endregion
-
-        #region Public Fields and Methods
-
-        public Printer Printer                                { get; private set; }
-        public HashSet<Drawable> PreviewContents              { get; private set; }
-        public HashSet<Drawable> MainContents                 { get; private set; }
-        public Dictionary<System.Drawing.Point, List<Drawable>> DrawablesMap { get; private set; }
-
-        public void DrawVertex(Vertex v) => this.Printer.PutVertex(v.Center, Color.Black);
-
-        public void DrawTriangle(Triangle t)
-        {
-            this.FillPoly(t);
-            this.DrawPerimiter(t);
-        }
-
-        public bool EnableGrid = false;
-
         private void DrawPerimiter(Triangle t)
         {
             if (!this.EnableGrid) return;
-            
+
             List<Vertex> temp = new List<Vertex>();
 
             foreach (var v in t.Vertices)
@@ -103,7 +84,7 @@ namespace lab02
                 {
                     List<Vertex> temp = new List<Vertex>();
                     Triangle t = (Triangle)d;
-                    
+
                     foreach (var v in t.Vertices)
                     {
                         temp.Add(v);
@@ -115,6 +96,25 @@ namespace lab02
                 }
             });
         }
+
+        #endregion
+
+        #region Public Fields and Methods
+
+        public Printer Printer                                { get; private set; }
+        public HashSet<Drawable> PreviewContents              { get; private set; }
+        public HashSet<Drawable> MainContents                 { get; private set; }
+        public Dictionary<System.Drawing.Point, List<Drawable>> DrawablesMap { get; private set; }
+
+        public void DrawVertex(Vertex v) => this.Printer.PutVertex(v.Center, Color.Black);
+
+        public void DrawTriangle(Triangle t)
+        {
+            this.FillPoly(t);
+            this.DrawPerimiter(t);
+        }
+
+        public bool EnableGrid = false;
 
         public void MoveToPreview(Drawable d)
         {
@@ -149,7 +149,6 @@ namespace lab02
             if (this.DrawablesMap.ContainsKey(v.Center.GetPoint()))
                 this.DrawablesMap[v.Center.GetPoint()].Remove(v);
         }
-
 
         public void Reprint()
         {

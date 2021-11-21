@@ -108,7 +108,7 @@ namespace lab02
             DropDownItem item = new DropDownItem();
             item.Value = str;
             item.IsDummy = true;
-            
+
             return item;
         }
 

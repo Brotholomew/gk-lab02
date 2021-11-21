@@ -67,33 +67,13 @@ namespace lab02
 
         private Color CalculateColor(int x, int y, int z, Triangle t)
         {
-            // z = (int)Math.Sqrt(this.radius * this.radius - x * x - y * y);
-
             Color ChosenColor = this.ICMBL.GetColor(x, y, z);
             Color LightColor = this.ICMBL.LightColor;
 
             double R = ChosenColor.R, G = ChosenColor.G, B = this.ChosenColor.B;
 
-            #region Object Oriented Calculations
-
-            // this code was nicely object oriented as below. However this implementation caused significant optimization issues,
-            // thus all the below objects have been abandoned
-
-            // V3 N = new V3(plane.A, plane.B, plane.C);
-            // V3 L = new V3(x, y, z);//new V3(new Point(x, y, z), this.TranslateAnimationDegree());
-            // V3 V = new V3(0, 0, 1);
-
-            // N.Normalize();
-            // L.Normalize();
-
-            // double ar = 2 * V3.DotProduct(N, L);
-            // V3 Rv = new V3(ar * N.X - L.X, ar * N.Y - L.Y, ar * N.Z - L.Z);
-
-            // R = CalculateCompositional(this.ChosenColor.R, this.LightColor.R, N, L, V, Rv);
-            // G = CalculateCompositional(this.ChosenColor.G, this.LightColor.G, N, L, V, Rv);
-            // B = CalculateCompositional(this.ChosenColor.B, this.LightColor.B, N, L, V, Rv);
-
-            #endregion
+            // The code below was object oriented. Unfortunately that implementation caused significant optimization issues,
+            // thus a primitive code-convention was adopted 
 
             #region variables
 
@@ -101,7 +81,6 @@ namespace lab02
             double _x = (x - this.radius * 1.5) / 2;
             double _y = (y - this.radius * 1.5) / 2;
             double N_X = _x, N_Y = _y, N_Z = (int)Math.Sqrt(this.radius * this.radius - _x * _x - _y * _y);
-            //double N_X = t.pA, N_Y = t.pB, N_Z = t.pC;
 
             // vector L
             double L_X = this.LightX - x, L_Y = this.LightY - y, L_Z = this.DistanceFromLightSource - z;
@@ -165,20 +144,6 @@ namespace lab02
             #endregion
 
             return Color.FromArgb((int)R, (int)G, (int)B);
-        }
-
-        private double CalculateCompositional(double objectCompositional, double lightCompositional, V3 N, V3 L, V3 V, V3 R)
-        {
-            double lambertCompositional = this.kd * objectCompositional * lightCompositional * V3.Cosine(N, L);
-            double mirrorCompositional = this.ks * objectCompositional * lightCompositional * Math.Pow(V3.Cosine(V, R), this.m);
-
-            return Math.Abs((lambertCompositional + mirrorCompositional) % 256);
-        }
-
-        private Point TranslateAnimationDegree()
-        {
-            CircleEquation c = new CircleEquation(new Point(this.Printer.Width / 2, this.Printer.Height / 2), 200);
-            return new Point(this._AnimationDegree, c.GetY(this._AnimationDegree));
         }
 
         #region Light Source
