@@ -113,7 +113,7 @@ namespace lab02
 
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
-                fileDialog.InitialDirectory = Application.StartupPath + "/Resources/Textures";
+                fileDialog.InitialDirectory = System.IO.Path.Combine(Application.StartupPath, "Resources");
                 fileDialog.Title = "Choose texture";
                 fileDialog.Filter = "Graphic files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
 

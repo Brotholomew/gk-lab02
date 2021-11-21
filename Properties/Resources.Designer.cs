@@ -59,15 +59,5 @@ namespace lab02.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap play_and_pause_icon_design_on_white_background_free_vector {
-            get {
-                object obj = ResourceManager.GetObject("play-and-pause-icon-design-on-white-background-free-vector", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

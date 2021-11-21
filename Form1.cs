@@ -12,7 +12,8 @@ namespace lab02
 {
     public partial class Form1 : Form
     {
-        private Timer AnimationClock;
+        #region Constructors
+
         public Form1()
         {
             InitializeComponent();
@@ -25,13 +26,13 @@ namespace lab02
             Designer.Instance.ICMBL = new ImageComboBoxLoader(this.TextureImageComboBox, this.LightColorComboBox, this.ObjectColorImageComboBox);
 
             ColorChanged(null, null);
-            // LightColorChanged(null, null);
             ScrollTriangulationDegreeTrackBar(null, null);
             ValueChangedAnimationTrackBar(null, null);
             ValueChangedKdScrollBar(null, null);
             ValueChangedKsScrollBar(null, null);
             ValueChangedMScrollBar(null, null);
             ValueChangedAnimationTrackBar(null, null);
+            ValueChangedKScrollBar(null, null);
             CheckedChangedColorInterpolation(null, null);
             Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
 
@@ -41,17 +42,19 @@ namespace lab02
             AnimationClock.Start();
         }
 
+        #endregion
+
+        #region Paint Event
+
         private void PaintCanvas(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(Designer.Instance.Printer.Main.Bitmap, 0, 0);
             e.Graphics.DrawImage(Designer.Instance.Printer.Preview.Bitmap, 0, 0);
         }
 
-        private void ScrollTriangulationDegreeTrackBar(object sender, EventArgs e)
-        {
-            Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
-            TriangulationDegreeTextBox.Text = TriangulationDegreeTrackBar.Value.ToString();
-        }
+        #endregion
+
+        #region Mouse Events
 
         private void MouseDownCanvas(object sender, MouseEventArgs e)
         {
@@ -68,17 +71,27 @@ namespace lab02
             Designer.Instance.FollowMouse(new Point(e.Location.X, e.Location.Y), this);
         }
 
+        #endregion
+
+        #region Color Event
+
         private void ColorChanged(object sender, EventArgs e)
         {
             if (Designer.Instance.ICMBL != null)
                 Designer.Instance.ICMBL.UpdateOptions();
-            //if (RadioButtonColorGreen.Checked)
-            //    Designer.Instance.ChosenColor = Color.Green;
-            //else if (RadioButtonColorRed.Checked)
-            //    Designer.Instance.ChosenColor = Color.Red;
 
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
+        }
+
+        #endregion
+
+        #region Scroll Bars
+
+        private void ScrollTriangulationDegreeTrackBar(object sender, EventArgs e)
+        {
+            Designer.Instance.TriangulateSphere(TriangulationDegreeTrackBar.Value);
+            TriangulationDegreeTextBox.Text = TriangulationDegreeTrackBar.Value.ToString();
         }
 
         private void ValueChangedKdScrollBar(object sender, EventArgs e)
@@ -120,6 +133,20 @@ namespace lab02
             Designer.Instance.Printer.Refresh();
         }
 
+        private void ValueChangedKScrollBar(object sender, EventArgs e)
+        {
+            Designer.Instance.k = KTrackBar.Value / 1000.0;
+            KTextBox.Text = (KTrackBar.Value / 1000.0).ToString();
+
+            Designer.Instance.Reprint();
+            Designer.Instance.Printer.Refresh();
+        }
+
+        #endregion
+
+        #region Animation
+
+        private Timer AnimationClock;
         private void ClickAnimationButton(object sender, EventArgs e)
         {
             if (this.AnimationClock.Enabled)
@@ -128,18 +155,13 @@ namespace lab02
                 this.AnimationClock.Start();
         }
 
+        #endregion
+
+        #region Check Boxes
+
         private void CheckedChangedColorInterpolation(object sender, EventArgs e)
         {
             Designer.Instance.ColorInterpolation = this.InterpolationCheckBox.Checked;
-
-            Designer.Instance.Reprint();
-            Designer.Instance.Printer.Refresh();
-        }
-
-        private void ValueChangedKScrollBar(object sender, EventArgs e)
-        {
-            Designer.Instance.k = KTrackBar.Value / 1000.0;
-            KTextBox.Text = (KTrackBar.Value / 1000.0).ToString();
 
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
@@ -151,5 +173,7 @@ namespace lab02
             Designer.Instance.Reprint();
             Designer.Instance.Printer.Refresh();
         }
+
+        #endregion
     }
 }

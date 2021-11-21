@@ -181,9 +181,11 @@ namespace lab02
             // 
             this.MTrackBar.Location = new System.Drawing.Point(606, 219);
             this.MTrackBar.Maximum = 100;
+            this.MTrackBar.Minimum = 1;
             this.MTrackBar.Name = "MTrackBar";
             this.MTrackBar.Size = new System.Drawing.Size(215, 45);
             this.MTrackBar.TabIndex = 12;
+            this.MTrackBar.Value = 1;
             this.MTrackBar.ValueChanged += new System.EventHandler(this.ValueChangedMScrollBar);
             // 
             // AnimationTrackBar
